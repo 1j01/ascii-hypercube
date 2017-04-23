@@ -78,7 +78,7 @@
 </header>
 <main>
 <p>
-	Create aesthetic square, cube, and tesseract ASCII art.
+	Create ＡＥＳＴＨＥＴＩＣ square, cube, and tesseract ASCII art, and more.
 	<!-- Great for creating `four-dimensional hypercube stuff`. -->
 </p>
 <h3>Input</h3>
@@ -86,8 +86,10 @@
 	<p>
 		<label>
 			Text:
-			<input id="text-input" type="text" value="TESSERACT">
+			<input id="text-input" type="text" value="@+++++++++++@">
 			<output id="text-is-good">👌 (first character same as last)</output>
+			<!-- TODO: symmetric indicator (it's *more* important to know when it's not 👌) -->
+			<!-- also, could highlight palindromes as 👌👌/👏 but that's not necessary -->
 		</label>
 	</p>
 	<p>
@@ -99,7 +101,13 @@
 	<p>
 		<label>
 			4D length:
-			<input id="d2-input" type="number" value="3" min="0">
+			<input id="d2-input" type="number" value="0" min="0">
+		</label>
+	</p>
+	<p>
+		<label>
+			5D length:
+			<input id="d3-input" type="number" value="0" min="0">
 		</label>
 	</p>
 	<!-- <p>

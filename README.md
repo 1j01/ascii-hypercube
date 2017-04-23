@@ -50,23 +50,34 @@ Create word cubes and other [hyperrectangular] ASCII art.
                   . \C            . \C
                      T E S S E R A C T
 
-    R A T H E R   H Y P E R
-    A\ .                  A\ .
-    T \   .               T \   .
-    H  R A T H E R   H Y PHE R     .
-    E  A  .     .         E  A  .     .
-    R  T     .     R A T HRE R   H Y P E R
-       H        .  A\        H        .  A\
-    H  E           T \    H  E           T \
-    Y  R           H  R A T HRE R   H Y PHE R
-    P              E  A   P              E  A
-    E  H           R  T   E  H           R  T
-    R AYT H E R   H Y H E R  Y              H
-     \ P           H  E    \ P           H  E
-      \E  .        Y  R     \E  .        Y  R
-       R A T H E R P H Y P E R     .     P
-          .     .  E  H         .     .  E  H
-             .     R AYT H E R   H Y P E R  Y
-                .   \ P               .   \ P
-                   . \E                  . \E
-                      R A T H E R   H Y P E R
+-----
+
+       R A T H E R   H Y P E R
+      /A\ ~                 /A\ ~
+     / T \   ~             / T \   ~
+    R AHT H E R ~ H Y P E R  H  \     ~
+    A\ ~   R A T H E R   HA\ ~ E R       ~
+    T \R  ~A  ~       ~   T \R  ~A  ~       ~
+    H  \ / T ~   ~       ~H  \ / T ~   ~       ~
+    E  HR AHT H E R ~ H Y P EHR  H    ~   ~       ~
+    R  YA  ~       ~   ~  R  YAR ~ T H E ~   H Y P E R
+       PT  R  ~       ~   ~  PTA\R  ~       ~   ~   /A\
+    H  EH        ~       ~H  EHT \     ~       ~   ~ T \
+    Y  REA H H E R  ~H Y PYERRAHTHH E R   H Y P E R  H~ \
+    P / R ~Y           ~  P A\RE~Y R A T H E ~   HA\ P E R
+    E/   \ P ~            E/T \R P/A            ~ T \R  /A
+    R A H HEE R ~ H Y P E R H~H\\E T  ~           H~ \ / T
+     \ ~Y  R A T H E R   H \E~YHRRAHT H E~R   H Y P EHR  H
+      \ P ~   ~       ~     R PYA  E~       ~     R  YA  E
+       \E/   ~   ~       ~   \EPT  ~   ~       ~     PT  R
+        R A T H E R ~ H Y P H REH     ~   ~       H  EH
+           ~       ~   ~    Y  RE~ H H E ~   H Y PYE RE  H
+              ~       ~   ~ P / R  Y~       ~   ~ P / R  Y
+                 ~       ~  E~   \ P   ~       ~  E~   \ P
+                    ~       R A H HEE R   H Y P E R   H \E
+                       ~     \  Y  R A T H E ~   H \ PYE R
+                          ~   \ P /             ~   \ P /
+                             ~ \E/                 ~ \E/
+                                R A T H E R   H Y P E R
+
+
