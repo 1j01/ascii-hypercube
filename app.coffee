@@ -1,38 +1,38 @@
 
+grid = []
+
 n_overlapping_characters = 0 # TODO
 
-tesseract = (text, d_1, d_2)->
-	# TODO: calculate these / trim the output
-	width = 100
-	height = 100
-	grid =
-		for [0..height]
-			for [0..width]
-				" "
-	
-	s = Math.max(text.length-1, 0)
-	
-	cube = (text, x, y, const_vertebrae_transit_euh)->
-		square = (text, x, y)->
-			for c, a in text when c isnt " "
-				grid[y+a][x+0] = c
-				grid[y+a][x+s*2] = c
-				grid[y+0][x+a*2] = c
-				grid[y+s][x+a*2] = c
+point = (char, x, y)->
+	if grid[y].length < x
+		grid[y][i] = " " for i in [grid[y].length..x]
+	grid[y][x] = char
 
-		unless const_vertebrae_transit_euh
-			if d_1 > 0
-				for i in [1..d_1]
-					square("\\#{Array(s).join(" ")}\\", x+i, y+i)
-		square(text, x, y)
-		square(text, x+d_1, y+d_1)
-	
+square = (text, x, y, s)->
+	for c, i in text when c isnt " "
+		point(c, x, y + i)
+		point(c, x + s * 2, y + i)
+		point(c, x + i * 2, y)
+		point(c, x + i * 2, y + s)
+
+# TODO: refactor, maybe don't use cube()/square() for drawing lines of higher-level shapes
+cube = (text, x, y, s, d_1, except_for_third_dimension)->
+	unless except_for_third_dimension
+		if d_1 > 0
+			for i in [1..d_1]
+				square("\\#{Array(s).join(" ")}\\", x+i, y+i, s)
+	square(text, x, y, s)
+	square(text, x+d_1, y+d_1, s)
+
+tesseract = (text, d_1, d_2)->
+	s = Math.max(text.length-1, 0)
 	if d_2 > 0
 		for i in [1..d_2]
-			cube(".#{Array(s).join(" ")}.", i*3, i, {const_vertebrae_transit_euh: "!"})
-	cube(text, 0, 0)
-	cube(text, d_2*3, d_2)
+			cube(".#{Array(s).join(" ")}.", i*3, i, s, d_1, true)
+	cube(text, 0, 0, s, d_1)
+	cube(text, d_2*3, d_2, s, d_1)
 	
+	# (line.join("").replace(/\s+$/, "") for line in grid).join("\n")
 	(line.join("") for line in grid).join("\n")
 
 # TODO: support arbitrary dimensionality
@@ -65,6 +65,16 @@ do compute = ->
 		(if text_is_good then "" else "hidden")
 	d_1 = parseInt(d1_input.value)
 	d_2 = parseInt(d2_input.value)
+	
+	# TODO: calculate both of these accurately
+	# or forego having a fixed-size grid entirely
+	width = 0#text.length - 1 + d_1 + d_2 * 3
+	height = text.length - 1 + d_1 + d_2
+	grid =
+		for [0..height]
+			for [0..width]
+				" "
+	
 	output_pre.textContent = tesseract(text, d_1, d_2)
 	# overlapping_characters_indicator.textContent = n_overlapping_characters
 	# overlapping_characters_indicator.textContent = "Note: there may be"

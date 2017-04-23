@@ -56,22 +56,20 @@
 		margin: 0;
 		padding: 0;
 	}
-	li {
-		background: white;
-		color: rgba(0, 0, 0, 0.7);
-		list-style: none;
+	pre {
+		/*background: white;*/
+		/*color: rgba(0, 0, 0, 0.7);*/
 		margin: 1em 0;
 		padding: 0.5em;
 		border-radius: 2px;
+		border: 1px solid rgba(0, 0, 0, 0.5);
+		overflow: auto;
 	}
 	.error {
 		color: #ff5722;
 	}
 	a {
 		color: inherit;
-	}
-	progress {
-		float: right;
 	}
 </style>
 <header>
@@ -113,7 +111,7 @@
 </form>
 <h3>Output</h3>
 <p>
-	Note: there may be overlapping characters.
+	Note: <output id="overlapping-characters">there may be</output> overlapping characters.
 </p>
 <output>
 	<pre id="output-pre"></pre>
@@ -122,10 +120,7 @@
 <footer>
 	<p>
 		Made by <a href="http://1j01.github.io/">Isaiah Odhner</a>.
-		Open source <a href="https://github.com/1j01/midiflip">on GitHub</a>.
+		Open source <a href="https://github.com/1j01/ascii-hypercube">on GitHub</a>.
 	</p>
 </footer>
-
-<script src="src/app.js"></script>
-
 </body>
