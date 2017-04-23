@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+<title>ASCII Hypercube</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="lib/coffee-script.js"></script>
+</head>
+<body>
+<script src="app.coffee" type="text/coffeescript"></script>
+<style>
+	html,
+	body {
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+	}
+	body {
+		font-family: sans-serif;
+		padding: 0 1rem;
+		box-sizing: border-box;
+	}
+	main {
+		flex: 1 0 auto;
+	}
+	footer {
+		text-align: center;
+		padding-bottom: 1rem;
+	}
+	h1, h2, h3, h4, h5, h6, p, p ~ output {
+		margin: 1.5rem 0;
+		display: block;
+	}
+	h1, h2, h3, h4, h5, h6, p {
+		margin-bottom: 0;
+	}
+	h1, h2, h3, h4, h5, h6 {
+		margin-bottom: 0;
+	}
+	h1 {
+		font-size: 3.5em;
+	}
+	h2 {
+		font-size: 2em;
+		/*font-size: 1.7em;*/
+		/*margin-top: 0;*/
+	}
+	h3 {
+		font-size: 1.7em;
+	}
+	h4 {
+		font-size: 1.2em;
+	}
+	ul {
+		margin: 0;
+		padding: 0;
+	}
+	li {
+		background: white;
+		color: rgba(0, 0, 0, 0.7);
+		list-style: none;
+		margin: 1em 0;
+		padding: 0.5em;
+		border-radius: 2px;
+	}
+	.error {
+		color: #ff5722;
+	}
+	a {
+		color: inherit;
+	}
+	progress {
+		float: right;
+	}
+</style>
+<header>
+	<h1>ASCII Hypercube</h1>
+	<!-- <h2>Create square, cube, and tesseract ASCII art</h2> -->
+</header>
+<main>
+<p>
+	Create aesthetic square, cube, and tesseract ASCII art.
+	<!-- Great for creating `four-dimensional hypercube stuff`. -->
+</p>
+<h3>Input</h3>
+<form>
+	<p>
+		<label>
+			Text:
+			<input id="text-input" type="text" value="TESSERACT">
+			<output id="text-is-good">👌 (first character same as last)</output>
+		</label>
+	</p>
+	<p>
+		<label>
+			3D length:
+			<input id="d1-input" type="number" value="5" min="0">
+		</label>
+	</p>
+	<p>
+		<label>
+			4D length:
+			<input id="d2-input" type="number" value="3" min="0">
+		</label>
+	</p>
+	<!-- <p>
+		<label>
+			<output id="overlapping-characters"></output>
+			overlapping characters
+		</label>
+	</p> -->
+</form>
+<h3>Output</h3>
+<p>
+	Note: there may be overlapping characters.
+</p>
+<output>
+	<pre id="output-pre"></pre>
+</output>
+</main>
+<footer>
+	<p>
+		Made by <a href="http://1j01.github.io/">Isaiah Odhner</a>.
+		Open source <a href="https://github.com/1j01/midiflip">on GitHub</a>.
+	</p>
+</footer>
+
+<script src="src/app.js"></script>
+
+</body>
