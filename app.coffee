@@ -26,35 +26,6 @@ square_points = (char, x, y, s)->
 	point(char, x + s * 0, y + s * 1)
 	point(char, x + s * 2, y + s * 1)
 
-# cube = (text, x, y, s, d_1, x_per_char, y_per_char)->
-# 	if d_1 > 0
-# 		for i in [1..d_1]
-# 			square_points("\\", x + i * x_per_char, y + i * y_per_char, s)
-# 	square(text, x, y, s)
-# 	square(text, x + d_1 * x_per_char, y + d_1 * y_per_char, s)
-# 
-# cube_points = (char, x, y, s, d_1, x_per_char, y_per_char)->
-# 	square_points(char, x, y, s)
-# 	square_points(char, x + d_1 * x_per_char, y + d_1 * y_per_char, s)
-# 
-# tesseract = (text, x, y, d_1, d_2, x_per_char, y_per_char)->
-	# s = Math.max(text.length - 1, 0)
-	# if d_2 > 0
-	# 	for i in [1..d_2]
-	# 		cube_points(".", x + i * x_per_char, y + i * y_per_char, s, d_1)
-	# cube(text, x, y, s, d_1)
-	# cube(text, x + d_2 * x_per_char, y + d_2, s, d_1)
-
-# hypercube_points = (dimensions, char, x, y, s)->
-# 	[dimension, further_dimensions...] = dimensions
-# 	{length, x_per_char, y_per_char, char} = dimension
-# 	if further_dimensions.length
-# 		hypercube_points(further_dimensions, char, x, y, s)
-# 		hypercube_points(further_dimensions, char, x + length * x_per_char, y + length * y_per_char, s)
-# 	else
-# 		square_points(char, x, y, s)
-# 		# square_points(char, x + length * x_per_char, y + length * y_per_char, s)
-
 hypercube_points = (dimensions, char, x, y, s)->
 	# XXX: WET; need to refactor recursion
 	[dimension, further_dimensions...] = dimensions
@@ -64,29 +35,19 @@ hypercube_points = (dimensions, char, x, y, s)->
 		hypercube_points(further_dimensions, char, x + further_dimensions[0].length * further_dimensions[0].x_per_char, y + further_dimensions[0].length * further_dimensions[0].y_per_char, s)
 	else
 		square_points(char, x, y, s)
-		# square_points(char, x + length * x_per_char, y + length * y_per_char, s)
 
 hypercube = (dimensions, text, x, y)->
 	[dimension, further_dimensions...] = dimensions
 	{length, x_per_char, y_per_char, char} = dimension
 	s = Math.max(text.length - 1, 0)
 	
-	# fn = if further_dimensions.length then hypercube else square
 	if length > 0
 		for i in [1..length]
 			hypercube_points(dimensions, char, x + i * x_per_char, y + i * y_per_char, s)
-			# if further_dimensions.length
-			# 	square_points(char, x + i * x_per_char, y + i * y_per_char, s)
-			# 	square_points(char, x + i * x_per_char, y + i * y_per_char, s)
-			# else
-			# 	square_points(char, x + i * x_per_char, y + i * y_per_char, s)
 	if further_dimensions.length
 		hypercube(further_dimensions, text, x, y, s)
 		hypercube(further_dimensions, text, x + length * x_per_char, y + length * y_per_char, s)
 	else
-		# if length > 0
-		# 	for i in [1..length]
-		# 		square_points("\\", x + i * x_per_char, y + i * y_per_char, s)
 		square(text, x, y, s)
 		square(text, x + length * x_per_char, y + length * y_per_char, s)
 
@@ -133,11 +94,6 @@ do compute = ->
 	d_3 = parseInt(d3_input.value)
 	
 	dimensions = [
-		# {length: d_2, x_per_char: 3, y_per_char: 1}
-		# {length: d_1, x_per_char: 1, y_per_char: 1}
-		# {length: d_3, x_per_char: 1, y_per_char: 3, char: "|"}
-		# {length: d_2, x_per_char: 3, y_per_char: 1, char: "."}
-		# {length: d_1, x_per_char: 1, y_per_char: 1, char: "\\"}
 		{length: d_3, x_per_char: -1, y_per_char: 1, char: "/"}
 		{length: d_2, x_per_char: 3, y_per_char: 1, char: "~"}
 		{length: d_1, x_per_char: 1, y_per_char: 1, char: "\\"}
@@ -160,14 +116,12 @@ do compute = ->
 	
 	n_overlapping_characters = 0
 	
-	# tesseract(graphemes, 0, 0, d_1, d_2)
 	hypercube(dimensions, graphemes, -x, -y)
 	
 	output_pre.textContent =
 		(line.join("") for line in grid).join("\n")
 	
 	# overlapping_characters_indicator.textContent = n_overlapping_characters
-	# overlapping_characters_indicator.textContent = "Note: there may be"
 
 for input in document.querySelectorAll("form input")
 	input.addEventListener("input", compute)
