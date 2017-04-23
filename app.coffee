@@ -15,22 +15,31 @@ square = (text, x, y, s)->
 		point(c, x + i * 2, y)
 		point(c, x + i * 2, y + s)
 
-# TODO: refactor, maybe don't use cube()/square() for drawing lines of higher-level shapes
-cube = (text, x, y, s, d_1, except_for_third_dimension)->
-	unless except_for_third_dimension
-		if d_1 > 0
-			for i in [1..d_1]
-				square("\\#{Array(s).join(" ")}\\", x+i, y+i, s)
+square_points = (char, x, y, s)->
+	point(char, x + s * 0, y + s * 0)
+	point(char, x + s * 2, y + s * 0)
+	point(char, x + s * 0, y + s * 1)
+	point(char, x + s * 2, y + s * 1)
+
+cube = (text, x, y, s, d_1)->
+	if d_1 > 0
+		for i in [1..d_1]
+			square_points("\\", x+i, y+i, s)
 	square(text, x, y, s)
 	square(text, x+d_1, y+d_1, s)
 
-tesseract = (text, d_1, d_2)->
-	s = Math.max(text.length-1, 0)
+cube_points = (char, x, y, s, d_1)->
+	square_points(char, x, y, s)
+	square_points(char, x + d_1, y + d_1, s)
+	# NOTE: hardcoding the specific projection in a lot of places
+
+tesseract = (text, x, y, d_1, d_2)->
+	s = Math.max(text.length - 1, 0)
 	if d_2 > 0
 		for i in [1..d_2]
-			cube(".#{Array(s).join(" ")}.", i*3, i, s, d_1, true)
-	cube(text, 0, 0, s, d_1)
-	cube(text, d_2*3, d_2, s, d_1)
+			cube_points(".", x + i * 3, y + i, s, d_1)
+	cube(text, x, y, s, d_1)
+	cube(text, x + d_2 * 3, y + d_2, s, d_1)
 	
 	# (line.join("").replace(/\s+$/, "") for line in grid).join("\n")
 	(line.join("") for line in grid).join("\n")
@@ -68,14 +77,14 @@ do compute = ->
 	
 	# TODO: calculate both of these accurately
 	# or forego having a fixed-size grid entirely
-	width = 0#text.length - 1 + d_1 + d_2 * 3
+	width = 0 # (text.length - 1) * 2 + d_1 + d_2 * 3
 	height = text.length - 1 + d_1 + d_2
 	grid =
 		for [0..height]
 			for [0..width]
 				" "
 	
-	output_pre.textContent = tesseract(text, d_1, d_2)
+	output_pre.textContent = tesseract(text, 0, 0, d_1, d_2)
 	# overlapping_characters_indicator.textContent = n_overlapping_characters
 	# overlapping_characters_indicator.textContent = "Note: there may be"
 

@@ -18,16 +18,16 @@ Create word cubes and other [hyperrectangular] ASCII art.
 
 -----
 
-    H A H   Y E A H      
-    A\            A\     
-    H H A H   Y E A H    
+    H A H   Y E A H
+    A\            A\
+    H H A H   Y E A H
       A             A        C U B I C
     Y H           Y H      / U     / U
     E             E      C U B I C   B
     A Y           A Y    U   I   U   I
     H E H   Y E A H E    B   C U B I C
-     \A            \A    I /     I /  
-      H A H   Y E A H    C U B I C    
+     \A            \A    I /     I /
+      H A H   Y E A H    C U B I C
 
 -----
 
@@ -49,3 +49,24 @@ Create word cubes and other [hyperrectangular] ASCII art.
                .   \ A         .   \ A
                   . \C            . \C
                      T E S S E R A C T
+
+    R A T H E R   H Y P E R
+    A\ .                  A\ .
+    T \   .               T \   .
+    H  R A T H E R   H Y PHE R     .
+    E  A  .     .         E  A  .     .
+    R  T     .     R A T HRE R   H Y P E R
+       H        .  A\        H        .  A\
+    H  E           T \    H  E           T \
+    Y  R           H  R A T HRE R   H Y PHE R
+    P              E  A   P              E  A
+    E  H           R  T   E  H           R  T
+    R AYT H E R   H Y H E R  Y              H
+     \ P           H  E    \ P           H  E
+      \E  .        Y  R     \E  .        Y  R
+       R A T H E R P H Y P E R     .     P
+          .     .  E  H         .     .  E  H
+             .     R AYT H E R   H Y P E R  Y
+                .   \ P               .   \ P
+                   . \E                  . \E
+                      R A T H E R   H Y P E R
