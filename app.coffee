@@ -40,9 +40,6 @@ tesseract = (text, x, y, d_1, d_2)->
 			cube_points(".", x + i * 3, y + i, s, d_1)
 	cube(text, x, y, s, d_1)
 	cube(text, x + d_2 * 3, y + d_2, s, d_1)
-	
-	# (line.join("").replace(/\s+$/, "") for line in grid).join("\n")
-	(line.join("") for line in grid).join("\n")
 
 # TODO: support arbitrary dimensionality
 # TODO: allow configuring the offset per drawn character for the "extra" dimensions
@@ -76,7 +73,7 @@ do compute = ->
 	d_2 = parseInt(d2_input.value)
 	
 	# TODO: calculate both of these accurately
-	# or forego having a fixed-size grid entirely
+	# or simply forego having a fixed-size grid entirely
 	width = 0 # (text.length - 1) * 2 + d_1 + d_2 * 3
 	height = text.length - 1 + d_1 + d_2
 	grid =
@@ -84,7 +81,11 @@ do compute = ->
 			for [0..width]
 				" "
 	
-	output_pre.textContent = tesseract(text, 0, 0, d_1, d_2)
+	tesseract(text, 0, 0, d_1, d_2)
+	
+	output_pre.textContent =
+		(line.join("") for line in grid).join("\n")
+	
 	# overlapping_characters_indicator.textContent = n_overlapping_characters
 	# overlapping_characters_indicator.textContent = "Note: there may be"
 
