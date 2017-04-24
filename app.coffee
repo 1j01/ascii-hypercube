@@ -166,6 +166,24 @@ make_dimension_row = (nd_name, dimension)->
 	label_el.appendChild(char_input)
 	container_el.appendChild(label_el)
 	
+	label_el = document.createElement("label")
+	offset_input = document.createElement("input")
+	offset_input.type = "text"
+	offset_input.className = "vector-input"
+	offset_input.value = "#{dimension.x_per_char}, #{dimension.y_per_char}"
+	offset_input.required = true
+	offset_input.pattern = "-?\\d+\\s*,\\s*-?\\d+"
+	offset_input.addEventListener "input", ->
+		[x_str, y_str] = offset_input.value.split(",")
+		unless isNaN(parseInt(x_str))
+			dimension.x_per_char = parseInt(x_str)
+		unless isNaN(parseInt(y_str))
+			dimension.y_per_char = parseInt(y_str)
+		compute()
+	label_el.appendChild(document.createTextNode("Offset per char: "))
+	label_el.appendChild(offset_input)
+	container_el.appendChild(label_el)
+	
 	container_el
 
 for dimension, i in dimensions by -1

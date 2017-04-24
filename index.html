@@ -31,6 +31,9 @@
 		margin: 1.5rem 0;
 		display: block;
 	}
+	p {
+		max-width: 65em;
+	}
 	h1, h2, h3, h4, h5, h6, p {
 		margin-bottom: 0;
 	}
@@ -73,7 +76,8 @@
 		width: 30em;
 	}
 	input[type="number"],
-	input.char-input {
+	input.char-input,
+	input.vector-input {
 		width: 3em;
 	}
 	input:invalid {
@@ -90,6 +94,13 @@
 <main>
 <p>
 	Create ＡＥＳＴＨＥＴＩＣ square, cube, and tesseract ASCII art, and more.
+</p>
+<p>
+	The first and second dimensions make up a square of the given text.
+	You can configure further dimensions, with
+	the length (in drawn characters),
+	the character repeated over the line segments in that dimension,
+	and the projection’s offset vector (in characters) per unit of length.
 </p>
 <h3>Input</h3>
 <form>
