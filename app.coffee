@@ -137,19 +137,35 @@ do compute = ->
 
 make_dimension_row = (nd_name, dimension)->
 	container_el = document.createElement("p")
+	
 	label_el = document.createElement("label")
 	length_input = document.createElement("input")
 	length_input.type = "number"
 	length_input.min = 0
 	length_input.step = 1
 	length_input.value = dimension.length
-	container_el.appendChild(label_el)
-	label_el.appendChild(document.createTextNode("#{nd_name} length: "))
-	label_el.appendChild(length_input)
+	length_input.required = true
 	length_input.addEventListener "input", ->
 		unless isNaN(parseInt(length_input.value))
 			dimension.length = parseInt(length_input.value)
 		compute()
+	label_el.appendChild(document.createTextNode("#{nd_name} length: "))
+	label_el.appendChild(length_input)
+	container_el.appendChild(label_el)
+	
+	label_el = document.createElement("label")
+	char_input = document.createElement("input")
+	char_input.type = "text"
+	char_input.className = "char-input"
+	char_input.pattern = "."
+	char_input.value = dimension.char
+	char_input.addEventListener "input", ->
+		dimension.char = char_input.value or " "
+		compute()
+	label_el.appendChild(document.createTextNode("Char: "))
+	label_el.appendChild(char_input)
+	container_el.appendChild(label_el)
+	
 	container_el
 
 for dimension, i in dimensions by -1

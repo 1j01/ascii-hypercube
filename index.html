@@ -62,8 +62,22 @@
 		resize: none;
 		white-space: pre;
 	}
-	.error {
-		color: #ff5722;
+	label ~ label {
+		margin-left: 1em;
+	}
+	input {
+		border: 1px solid rgba(0, 0, 0, 0.5);
+		padding: 0.1em;
+	}
+	#text-input {
+		width: 30em;
+	}
+	input[type="number"],
+	input.char-input {
+		width: 3em;
+	}
+	input:invalid {
+		background: rgba(255, 87, 34, 0.35);
 	}
 	a {
 		color: inherit;
