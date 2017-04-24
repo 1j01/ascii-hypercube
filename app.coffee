@@ -52,10 +52,8 @@ hypercube = (dimensions, text, x, y)->
 		square(text, x + length * x_per_char, y + length * y_per_char, s)
 
 
+form = document.querySelector("form")
 text_input = document.getElementById("text-input")
-d1_input = document.getElementById("d1-input")
-d2_input = document.getElementById("d2-input")
-d3_input = document.getElementById("d3-input")
 output_textarea = document.getElementById("output-textarea")
 text_is_good_indicator = document.getElementById("text-is-good")
 overlapping_characters_indicator = document.getElementById("overlapping-characters")
@@ -83,21 +81,17 @@ findGraphemesNotVeryWell = (text)->
 		graphemes.push(match[0])
 	graphemes
 
+dimensions = [
+	{length: 0, x_per_char: -1, y_per_char: 1, char: "/"}
+	{length: 0, x_per_char: 3, y_per_char: 1, char: "~"}
+	{length: 5, x_per_char: 1, y_per_char: 1, char: "\\"}
+]
 
 do compute = ->
 	graphemes = findGraphemesNotVeryWell(text_input.value)
 	text_is_good = graphemes.length > 1 and graphemes[0] is graphemes[graphemes.length-1]
 	text_is_good_indicator.style.visibility =
 		(if text_is_good then "" else "hidden")
-	d_1 = parseInt(d1_input.value)
-	d_2 = parseInt(d2_input.value)
-	d_3 = parseInt(d3_input.value)
-	
-	dimensions = [
-		{length: d_3, x_per_char: -1, y_per_char: 1, char: "/"}
-		{length: d_2, x_per_char: 3, y_per_char: 1, char: "~"}
-		{length: d_1, x_per_char: 1, y_per_char: 1, char: "\\"}
-	]
 	
 	# NOTE: could forego having a fixed-size grid entirely
 	x = 0
@@ -140,6 +134,27 @@ do compute = ->
 	output_textarea.style.height = "#{scroll_height + padding_top + padding_bottom}px"
 	
 	# overlapping_characters_indicator.textContent = n_overlapping_characters
+
+make_dimension_row = (nd_name, dimension)->
+	container_el = document.createElement("p")
+	label_el = document.createElement("label")
+	length_input = document.createElement("input")
+	length_input.type = "number"
+	length_input.min = 0
+	length_input.step = 1
+	length_input.value = dimension.length
+	container_el.appendChild(label_el)
+	label_el.appendChild(document.createTextNode("#{nd_name} length: "))
+	label_el.appendChild(length_input)
+	length_input.addEventListener "input", ->
+		unless isNaN(parseInt(length_input.value))
+			dimension.length = parseInt(length_input.value)
+		compute()
+	container_el
+
+for dimension, i in dimensions by -1
+	el = make_dimension_row("#{3 + dimensions.length - 1 - i}D", dimension)
+	form.appendChild(el)
 
 for input in document.querySelectorAll("form input")
 	input.addEventListener("input", compute)
