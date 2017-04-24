@@ -56,7 +56,7 @@ text_input = document.getElementById("text-input")
 d1_input = document.getElementById("d1-input")
 d2_input = document.getElementById("d2-input")
 d3_input = document.getElementById("d3-input")
-output_pre = document.getElementById("output-pre")
+output_textarea = document.getElementById("output-textarea")
 text_is_good_indicator = document.getElementById("text-is-good")
 overlapping_characters_indicator = document.getElementById("overlapping-characters")
 
@@ -102,24 +102,42 @@ do compute = ->
 	# NOTE: could forego having a fixed-size grid entirely
 	x = 0
 	y = 0
-	width = 0 # (graphemes.length - 1) * 2
-	height = graphemes.length - 1
+	s = Math.max(graphemes.length - 1, 0)
+	width = s * 2
+	height = s
 	for dimension in dimensions
-		# width = Math.max(width, width + dimension.length * dimension.x_per_char)
+		width = Math.max(width, width + dimension.length * dimension.x_per_char)
 		height = Math.max(height, height + dimension.length * dimension.y_per_char)
-		x = Math.min(x, x + dimension.length * dimension.x_per_char)
-		y = Math.min(y, y + dimension.length * dimension.y_per_char)
+		x = Math.max(x, x - dimension.length * dimension.x_per_char)
+		y = Math.max(y, y - dimension.length * dimension.y_per_char)
+	width += x
+	height += y
 	grid =
 		for [0..height]
-			for [0..width]
-				" "
+			[]
+			# for [0..width]
+			# 	" "
 	
 	n_overlapping_characters = 0
 	
-	hypercube(dimensions, graphemes, -x, -y)
+	hypercube(dimensions, graphemes, x, y)
 	
-	output_pre.textContent =
+	output_textarea.value =
 		(line.join("") for line in grid).join("\n")
+	
+	output_textarea.setAttribute("rows", height + 1)
+	# output_textarea.setAttribute("cols", width + 1)
+	
+	style = window.getComputedStyle(output_textarea, null)
+	padding_top = parseFloat(style.getPropertyValue("padding-top"))
+	padding_bottom = parseFloat(style.getPropertyValue("padding-bottom"))
+	
+	output_textarea.style.height = "1px"
+	scroll_height = output_textarea.scrollHeight
+	# output_textarea.style.height = "#{output_textarea.scrollHeight + 50}px"
+	# console.log output_textarea.scrollHeight, padding_top, padding_bottom
+	# output_textarea.style.height = "#{scroll_height + 50}px"
+	output_textarea.style.height = "#{scroll_height + padding_top + padding_bottom}px"
 	
 	# overlapping_characters_indicator.textContent = n_overlapping_characters
 

@@ -6,7 +6,6 @@
 <script src="lib/coffee-script.js"></script>
 </head>
 <body>
-<script src="app.coffee" type="text/coffeescript"></script>
 <style>
 	html,
 	body {
@@ -52,12 +51,16 @@
 	h4 {
 		font-size: 1.2em;
 	}
-	pre {
-		margin: 1em 0;
+	textarea {
+		box-sizing: border-box;
+		width: 100%;
 		padding: 0.5em;
 		border-radius: 2px;
 		border: 1px solid rgba(0, 0, 0, 0.5);
-		overflow: auto;
+		overflow-x: auto;
+		overflow-y: hidden;
+		resize: none;
+		white-space: pre;
 	}
 	.error {
 		color: #ff5722;
@@ -108,7 +111,7 @@
 	Note: <output id="overlapping-characters">there may be</output> overlapping characters.
 </p>
 <output>
-	<pre id="output-pre"></pre>
+	<textarea readonly id="output-textarea"></textarea>
 </output>
 </main>
 <footer>
@@ -117,4 +120,7 @@
 		Open source <a href="https://github.com/1j01/ascii-hypercube">on GitHub</a>.
 	</p>
 </footer>
+
+<script src="app.coffee" type="text/coffeescript"></script>
+
 </body>
