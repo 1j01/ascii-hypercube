@@ -72,14 +72,7 @@ overlapping_characters_indicator = document.getElementById("overlapping-characte
 	O N E → T W O
 ###
 
-findGraphemesNotVeryWell = (text)->
-	re = /.[\u0300-\u036F]*/g
-	graphemes = []
-	loop
-		match = re.exec(text)
-		break unless match
-		graphemes.push(match[0])
-	graphemes
+splitter = new GraphemeSplitter
 
 dimensions = [
 	{length: 0, x_per_char: -1, y_per_char: 1, char: "/"}
@@ -88,7 +81,7 @@ dimensions = [
 ]
 
 do compute = ->
-	graphemes = findGraphemesNotVeryWell(text_input.value)
+	graphemes = splitter.splitGraphemes(text_input.value)
 	text_is_good = graphemes.length > 1 and graphemes[0] is graphemes[graphemes.length-1]
 	text_is_good_indicator.style.visibility =
 		(if text_is_good then "" else "hidden")
