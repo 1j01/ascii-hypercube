@@ -81,4 +81,7 @@ Create word cubes and other [hyperrectangular] ASCII art.
                              ~ \E/                 ~ \E/
                                 R A T H E R   H Y P E R
 
+## License
+
+MIT-licensed; see [LICENSE](LICENSE) for details
 
