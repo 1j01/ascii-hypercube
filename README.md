@@ -1,7 +1,7 @@
 # ＡＳＣＩＩ　ＨＹＰＥＲＣＵＢＥ
 Create word cubes and other [hyperrectangular] ASCII art.
 
-[Try it out `ｏｎｌｉｎｅ` on this `ｗｅｂｐａｇｅ`｡](http://1j01.github.io/ascii-hypercube/)
+[Try it out `ｏｎｌｉｎｅ` on this `ｗｅｂｐａｇｅ`｡](https://1j01.github.io/ascii-hypercube/)
 
 [hyperrectangular]: https://en.wikipedia.org/wiki/Hyperrectangle
 
