@@ -5,7 +5,9 @@ Create word cubes and other [hyperrectangular] ASCII art.
 
 [hyperrectangular]: https://en.wikipedia.org/wiki/Hyperrectangle
 
------
+## Examples
+
+### 2D
 
     S Q U A R E S
     Q           Q
@@ -15,8 +17,7 @@ Create word cubes and other [hyperrectangular] ASCII art.
     E           E
     S Q U A R E S
 
-
------
+### 3D
 
     H A H   Y E A H
     A\            A\
@@ -29,7 +30,7 @@ Create word cubes and other [hyperrectangular] ASCII art.
      \A            \A    I /     I /
       H A H   Y E A H    C U B I C
 
------
+### 4D
 
     T E S S E R A C T
     E\ .            E\ .
@@ -50,7 +51,7 @@ Create word cubes and other [hyperrectangular] ASCII art.
                   . \C            . \C
                      T E S S E R A C T
 
------
+### 5D
 
        R A T H E R   H Y P E R
       /A\ ~                 /A\ ~
