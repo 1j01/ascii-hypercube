@@ -104,6 +104,15 @@
    #copied.hidden {
      opacity: 0;
    }
+
+
+   @media (min-width: 800px) {
+     .two-column {
+       vertical-align: top;
+       width: 45%;
+       display: inline-block;
+     }
+   }
   </style>
 <header>
 	<h1>ASCII Hypercube</h1>
@@ -120,34 +129,38 @@
 	the character repeated over the line segments in that dimension,
 	and the projection’s offset vector (in characters) per unit of length.
 </p>
-<h3>Input</h3>
-<form>
-	<p>
-		<label>
-			Text:
-			<input id="text-input" type="text" value="@+++++++++++@">
-			<output id="text-is-good">👌 (first character same as last)</output>
-			<!-- TODO: symmetric indicator (it's *more* important to know when it's not 👌) -->
-		</label>
-	</p>
-</form>
-<h3>Output</h3>
-<p>
-	Note: <output id="overlapping-characters">there may be</output> overlapping characters.
-</p>
-<output>
-  <textarea readonly id="output-textarea"></textarea>
-  <button onclick="javascript:copyToClipboard()" >Copy</button>
-  <span style="margin-left: 10px">
-    <label for="reddit-check">
-      Format for Reddit
-      <input id="reddit-check" type="checkbox"/>
-    </label>
-  </span>
-  <div>
-    <span id="copied" class="hidden">Copied</span>
-  </div>
-</output>
+<div class="two-column">
+  <h3>Input</h3>
+  <form>
+    <p>
+      <label>
+	Text:
+	<input id="text-input" type="text" value="@+++++++++++@">
+	<output id="text-is-good">👌 (first character same as last)</output>
+	<!-- TODO: symmetric indicator (it's *more* important to know when it's not 👌) -->
+      </label>
+    </p>
+  </form>
+</div>
+<div class="two-column">
+  <h3>Output</h3>
+  <p>
+    Note: <output id="overlapping-characters">there may be</output> overlapping characters.
+  </p>
+  <output>
+    <textarea readonly id="output-textarea"></textarea>
+    <button onclick="javascript:copyToClipboard()" >Copy</button>
+    <span style="margin-left: 10px">
+      <label for="reddit-check">
+        Format for Reddit
+        <input id="reddit-check" type="checkbox"/>
+      </label>
+    </span>
+    <div>
+      <span id="copied" class="hidden">Copied</span>
+    </div>
+  </output>
+</div>
 <p>
   The output is intended to be used with a <a href="https://en.wikipedia.org/wiki/Monospaced_font"><strong>monospaced font</strong></a>.
   To get monospacing on Reddit, GitHub, and other places that support <a href="https://daringfireball.net/projects/markdown/syntax">Markdown</a>,
