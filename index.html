@@ -8,87 +8,103 @@
 <script src="lib/grapheme-splitter.js"></script>
 </head>
 <body>
-<style>
-	html,
-	body {
-		height: 100%;
-		margin: 0;
-		padding: 0;
-		display: flex;
-		flex-direction: column;
-	}
-	body {
-		font-family: sans-serif;
-		padding: 0 1rem;
-		box-sizing: border-box;
-	}
-	main {
-		flex: 1 0 auto;
-	}
-	footer {
-		text-align: center;
-		padding-bottom: 1rem;
-	}
-	h1, h2, h3, h4, h5, h6, p, p ~ output {
-		margin: 1.5rem 0;
-		display: block;
-	}
-	p {
-		max-width: 65em;
-	}
-	h1, h2, h3, h4, h5, h6, p {
-		margin-bottom: 0;
-	}
-	h1, h2, h3, h4, h5, h6 {
-		margin-bottom: 0;
-	}
-	h1 {
-		font-size: 3.5em;
-	}
-	h2 {
-		font-size: 2em;
-		/*font-size: 1.7em;*/
-		/*margin-top: 0;*/
-	}
-	h3 {
-		font-size: 1.7em;
-	}
-	h4 {
-		font-size: 1.2em;
-	}
-	textarea {
-		box-sizing: border-box;
-		width: 100%;
-		padding: 0.5em;
-		border-radius: 2px;
-		border: 1px solid rgba(0, 0, 0, 0.5);
-		overflow-x: auto;
-		overflow-y: hidden;
-		resize: none;
-		white-space: pre;
-	}
-	label ~ label {
-		margin-left: 1em;
-	}
-	input {
-		border: 1px solid rgba(0, 0, 0, 0.5);
-		padding: 0.1em;
-	}
-	#text-input {
-		width: 30em;
-	}
-	input[type="number"],
-	input.char-input,
-	input.vector-input {
-		width: 3em;
-	}
-	input:invalid {
-		background: rgba(255, 87, 34, 0.35);
-	}
-	a {
-		color: inherit;
-	}
-</style>
+  <style>
+   html,
+   body {
+     height: 100%;
+     margin: 0;
+     padding: 0;
+     display: flex;
+     flex-direction: column;
+   }
+   body {
+     font-family: sans-serif;
+     padding: 0 1rem;
+     box-sizing: border-box;
+   }
+   main {
+     flex: 1 0 auto;
+   }
+   footer {
+     text-align: center;
+     padding-bottom: 1rem;
+   }
+   h1, h2, h3, h4, h5, h6, p, p ~ output {
+     margin: 1.5rem 0;
+     display: block;
+   }
+   p {
+     max-width: 65em;
+   }
+   h1, h2, h3, h4, h5, h6, p {
+     margin-bottom: 0;
+   }
+   h1, h2, h3, h4, h5, h6 {
+     margin-bottom: 0;
+   }
+   h1 {
+     font-size: 3.5em;
+   }
+   h2 {
+     font-size: 2em;
+     /*font-size: 1.7em;*/
+     /*margin-top: 0;*/
+   }
+   h3 {
+     font-size: 1.7em;
+   }
+   h4 {
+     font-size: 1.2em;
+   }
+   textarea {
+     font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+     box-sizing: border-box;
+     width: 100%;
+     padding: 0.5em;
+     border-radius: 2px;
+     border: 1px solid rgba(0, 0, 0, 0.5);
+     overflow-x: auto;
+     overflow-y: hidden;
+     resize: none;
+     white-space: pre;
+   }
+   label ~ label {
+     margin-left: 1em;
+   }
+   input {
+     border: 1px solid rgba(0, 0, 0, 0.5);
+     padding: 0.1em;
+   }
+   #text-input {
+     width: 30em;
+   }
+   input[type="number"],
+   input.char-input,
+   input.vector-input {
+     width: 3em;
+   }
+   input:invalid {
+     background: rgba(255, 87, 34, 0.35);
+   }
+   a {
+     color: inherit;
+   }
+   #copied {
+     background-color: #f1f2f3;
+     border-radius: 15px;
+     padding: 2px 10px;
+     transition: opacity .5s ease-out;
+     -moz-transition: opacity .5s ease-out;
+     -webkit-transition: opacity .5s ease-out;
+     -o-transition: opacity .5s ease-out;
+     opacity: 1;
+     position: absolute;
+     margin-top: 5px;
+   }
+   #copied.hidden {
+     opacity: 0;
+   }
+  </style>
 <header>
 	<h1>ASCII Hypercube</h1>
 	<!-- <h2>Create hyperrectangular ASCII art</h2> -->
@@ -120,30 +136,67 @@
 	Note: <output id="overlapping-characters">there may be</output> overlapping characters.
 </p>
 <output>
-	<textarea readonly id="output-textarea"></textarea>
-	<!-- TODO: copy button -->
+  <textarea readonly id="output-textarea"></textarea>
+  <button onclick="javascript:copyToClipboard()" >Copy</button>
+  <span style="margin-left: 10px">
+    <label for="reddit-check">
+      Format for Reddit
+      <input id="reddit-check" type="checkbox"/>
+    </label>
+  </span>
+  <div>
+    <span id="copied" class="hidden">Copied</span>
+  </div>
 </output>
 <p>
-	The output is intended to be used with a <a href="https://en.wikipedia.org/wiki/Monospaced_font"><strong>monospaced font</strong></a>.
-	To get monospacing on Reddit, GitHub, and other places that support <a href="https://daringfireball.net/projects/markdown/syntax">Markdown</a>,
-	indent the output by four (4) spaces.
-	(You could use a tool like <a href="http://textmechanic.com/text-tools/basic-text-tools/add-prefixsuffix-into-line/">Text Mechanic</a> to add spaces as a prefix to every line.)
-	<!-- TODO: button to indent (also should the textarea be editable? so you can paste in other text to indent, e.g.?) -->
-	You may also find an option to create "code blocks" in some services/apps
-	by selecting text and clicking an icon that generally looks like <span style="font-family: monospace">&lt;&gt;</span>.
+  The output is intended to be used with a <a href="https://en.wikipedia.org/wiki/Monospaced_font"><strong>monospaced font</strong></a>.
+  To get monospacing on Reddit, GitHub, and other places that support <a href="https://daringfireball.net/projects/markdown/syntax">Markdown</a>,
+  indent the output by four (4) spaces.
+  <!-- TODO: button to indent (also should the textarea be editable? so you can paste in other text to indent, e.g.?) -->
+  You may also find an option to create "code blocks" in some services/apps
+  by selecting text and clicking an icon that generally looks like <span style="font-family: monospace">&lt;&gt;</span>.
 </p>
 <p>
-	<strong>Recommended:</strong> make further edits by importing in <a href="http://asciiflow.com/">ASCIIFlow Infinity</a>.
-	(not affiliated)
+  <strong>Recommended:</strong> make further edits by importing in <a href="http://asciiflow.com/">ASCIIFlow Infinity</a>.
+  (not affiliated)
 </p>
 </main>
 <footer>
-	<p>
-		Made by <a href="https://isaiahodhner.ml/">Isaiah Odhner</a>.
-		Open source <a href="https://github.com/1j01/ascii-hypercube">on GitHub</a>.
-	</p>
+  <p>
+    Made by <a href="https://isaiahodhner.ml/">Isaiah Odhner</a>.
+    Open source <a href="https://github.com/1j01/ascii-hypercube">on GitHub</a>.
+  </p>
 </footer>
 
-<script src="app.coffee" type="text/coffeescript"></script>
+<script src="./app.coffee" type="text/coffeescript"></script>
+<script>
+ function copyToClipboard() {
+   var copyText = document.getElementById("output-textarea");
+   var saved = copyText.value;
+   var redditCheck = document.getElementById('reddit-check').checked;
+
+   if (redditCheck ) {
+     copyText.value = saved.split('\n').map(
+       function(str) {
+         return str.replace(/^/g,'    ');
+       }
+     ).join('\n');
+   }
+
+   /* Select the text field */
+   copyText.select();
+
+   /* Copy the text inside the text field */
+   document.execCommand("copy");
+
+   if (redditCheck ) {
+     copyText.value = saved;
+   }
+   copied.className = "";
+   setTimeout(function() {
+     copied.className = "hidden"
+   }, 1000);
+ }
+</script>
 
 </body>
