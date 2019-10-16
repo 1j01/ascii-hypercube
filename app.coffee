@@ -36,20 +36,19 @@ hypercube = (dimensions, x, y)->
 	overlaps = {}
 
 	[dimension, further_dimensions...] = dimensions
-	{length, x_per_glyph, y_per_glyph, text} = dimension
+	{length, x_per_glyph, y_per_glyph, glyphs} = dimension
 	
-	graphemes = splitter.splitGraphemes(text)
-	# TODO: handle no graphemes
+	# TODO: handle no glyphs
 	if length > 0
 		for i in [1..length]
-			glyph = graphemes[i % graphemes.length]
+			glyph = glyphs[i % glyphs.length]
 			hypercube_points(dimensions, glyph, x + i * x_per_glyph, y + i * y_per_glyph)
 	if further_dimensions.length
 		hypercube(further_dimensions, x, y)
 		hypercube(further_dimensions, x + length * x_per_glyph, y + length * y_per_glyph)
 	else
-		point(graphemes[0], x, y)
-		point(graphemes[graphemes.length - 1], x + length * x_per_glyph, y + length * y_per_glyph)
+		point(glyphs[0], x, y)
+		point(glyphs[glyphs.length - 1], x + length * x_per_glyph, y + length * y_per_glyph)
 
 
 form = document.getElementById("inputs")
@@ -128,6 +127,9 @@ do compute = ->
 			# for [0..width]
 			# 	" "
 	
+	for dimension in dimensions
+		dimension.glyphs = splitter.splitGraphemes(dimension.text)
+
 	hypercube(dimensions, x, y)
 	
 	output_text_art =
