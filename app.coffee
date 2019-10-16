@@ -7,9 +7,11 @@ overlaps = {}
 point = (char, x, y)->
 	if grid.length <= y
 		console?.warn? "Expanding vertically"
-		grid[i] = [] for i in [grid.length..y]
+		for i in [grid.length..y]
+			grid[i] = []
 	if grid[y].length < x
-		grid[y][i] = " " for i in [grid[y].length..x]
+		for i in [grid[y].length..x]
+			grid[y][i] = " "
 	existing = grid[y][x]
 	if existing? and existing isnt " " and existing isnt char
 		overlaps[existing] ?= {}
@@ -18,51 +20,39 @@ point = (char, x, y)->
 		n_overlaps += 1
 	grid[y][x] = char
 
-square = (text, x, y, s)->
-	for c, i in text when c isnt " "
-		point(c, x, y + i)
-		point(c, x + s * 2, y + i)
-		point(c, x + i * 2, y)
-		point(c, x + i * 2, y + s)
-
-square_points = (char, x, y, s)->
-	point(char, x + s * 0, y + s * 0)
-	point(char, x + s * 2, y + s * 0)
-	point(char, x + s * 0, y + s * 1)
-	point(char, x + s * 2, y + s * 1)
-
-hypercube_points = (dimensions, char, x, y, s)->
+hypercube_points = (dimensions, char, x, y)->
 	# XXX: WET; need to refactor recursion
 	[dimension, further_dimensions...] = dimensions
 	{length, x_per_char, y_per_char} = dimension
 	if further_dimensions.length
-		hypercube_points(further_dimensions, char, x, y, s)
-		hypercube_points(further_dimensions, char, x + further_dimensions[0].length * further_dimensions[0].x_per_char, y + further_dimensions[0].length * further_dimensions[0].y_per_char, s)
+		hypercube_points(further_dimensions, char, x, y)
+		hypercube_points(further_dimensions, char, x + further_dimensions[0].length * further_dimensions[0].x_per_char, y + further_dimensions[0].length * further_dimensions[0].y_per_char)
 	else
-		square_points(char, x, y, s)
+		point(char, x, y)
 
-hypercube = (dimensions, text, x, y)->
+hypercube = (dimensions, x, y)->
 
 	n_overlaps = 0
 	overlaps = {}
 
 	[dimension, further_dimensions...] = dimensions
-	{length, x_per_char, y_per_char, char} = dimension
-	s = Math.max(text.length - 1, 0)
+	{length, x_per_char, y_per_char, text} = dimension
 	
+	graphemes = splitter.splitGraphemes(text)
+	# TODO: handle no graphemes
 	if length > 0
 		for i in [1..length]
-			hypercube_points(dimensions, char, x + i * x_per_char, y + i * y_per_char, s)
+			char = graphemes[i % graphemes.length]
+			hypercube_points(dimensions, char, x + i * x_per_char, y + i * y_per_char)
 	if further_dimensions.length
-		hypercube(further_dimensions, text, x, y, s)
-		hypercube(further_dimensions, text, x + length * x_per_char, y + length * y_per_char, s)
+		hypercube(further_dimensions, x, y)
+		hypercube(further_dimensions, x + length * x_per_char, y + length * y_per_char)
 	else
-		square(text, x, y, s)
-		square(text, x + length * x_per_char, y + length * y_per_char, s)
+		point(graphemes[0], x, y)
+		point(graphemes[graphemes.length - 1], x + length * x_per_char, y + length * y_per_char)
 
 
-form = document.querySelector("form")
-text_input = document.getElementById("text-input")
+form = document.getElementById("inputs")
 output_textarea = document.getElementById("output-textarea")
 copy_to_clipboard_button = document.getElementById("copy-to-clipboard")
 markdown_format_checkbox = document.getElementById("markdown-format-checkbox")
@@ -108,57 +98,23 @@ update_output_textarea = ->
 
 # TODO: form validation
 
-### TODO: treat the first two dimensions similarly to the other dimensions
-allow configuring more than a single glyph for each dimension, repeated if needed,
-but able to specify whole strings of text for any side
-you should be able to do e.g. a rectangle of TOAST x TEST
-
-    T O A S T
-    E       E
-    S       S
-    T O A S T
-
-or...
-
-	O N E → T W O
-	N           N
-	E           E
-	↓           ↓
-	T           T
-	W           W
-	O N E → T W O
-
-as well as things like
-
-    C U B I C
-    U U     U U
-    B   B   B   B
-    I     I I     I
-    C U B I C U B I C
-      U     U U     U
-        B   B   B   B
-          I I     I I
-            C U B I C
-
-###
-
 splitter = new GraphemeSplitter
 
+# TODO: define dimensions forwards
 dimensions = [
-	{length: 0, x_per_char: -1, y_per_char: 1, char: "/"}
-	{length: 0, x_per_char: 3, y_per_char: 1, char: "~"}
-	{length: 5, x_per_char: 1, y_per_char: 1, char: "\\"}
+	{length: 0, x_per_char: -1, y_per_char: 1, text: "/"}
+	{length: 0, x_per_char: 3, y_per_char: 1, text: "~"}
+	{length: 2, x_per_char: 2, y_per_char: 1, text: "\\"}
+	{length: 4, x_per_char: 0, y_per_char: 1, text: "CUBIC"}
+	{length: 4, x_per_char: 2, y_per_char: 0, text: "CUBIC"}
 ]
 
 do compute = ->
-	graphemes = splitter.splitGraphemes(text_input.value)
 	
-	# NOTE: could forego having a fixed-size grid entirely
 	x = 0
 	y = 0
-	s = Math.max(graphemes.length - 1, 0)
-	width = s * 2
-	height = s
+	width = 0
+	height = 0
 	for dimension in dimensions
 		width = Math.max(width, width + dimension.length * dimension.x_per_char)
 		height = Math.max(height, height + dimension.length * dimension.y_per_char)
@@ -172,7 +128,7 @@ do compute = ->
 			# for [0..width]
 			# 	" "
 	
-	hypercube(dimensions, graphemes, x, y)
+	hypercube(dimensions, x, y)
 	
 	output_text_art =
 		(line.join("") for line in grid).join("\n")
@@ -198,16 +154,15 @@ make_dimension_row = (nd_name, dimension)->
 	container_el.appendChild(label_el)
 	
 	label_el = document.createElement("label")
-	char_input = document.createElement("input")
-	char_input.type = "text"
-	char_input.className = "char-input"
-	char_input.pattern = "."
-	char_input.value = dimension.char
-	char_input.addEventListener "input", ->
-		dimension.char = char_input.value or " "
+	text_input = document.createElement("input")
+	text_input.type = "text"
+	text_input.className = "text-input"
+	text_input.value = dimension.text
+	text_input.addEventListener "input", ->
+		dimension.text = text_input.value or " "
 		compute()
-	label_el.appendChild(document.createTextNode("Char: "))
-	label_el.appendChild(char_input)
+	label_el.appendChild(document.createTextNode("Text: "))
+	label_el.appendChild(text_input)
 	container_el.appendChild(label_el)
 	
 	label_el = document.createElement("label")
@@ -224,14 +179,14 @@ make_dimension_row = (nd_name, dimension)->
 		unless isNaN(parseInt(y_str))
 			dimension.y_per_char = parseInt(y_str)
 		compute()
-	label_el.appendChild(document.createTextNode("Offset per char: "))
+	label_el.appendChild(document.createTextNode("Offset per glyph: "))
 	label_el.appendChild(offset_input)
 	container_el.appendChild(label_el)
 	
 	container_el
 
 for dimension, i in dimensions by -1
-	el = make_dimension_row("#{3 + dimensions.length - 1 - i}D", dimension)
+	el = make_dimension_row("#{dimensions.length - i}D", dimension)
 	form.appendChild(el)
 
 for input in document.querySelectorAll("form input")

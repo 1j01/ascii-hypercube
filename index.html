@@ -78,11 +78,8 @@
 		border: 1px solid rgba(0, 0, 0, 0.5);
 		padding: 0.1em;
 	}
-	#text-input {
-		width: 30em;
-	}
 	input[type="number"],
-	input.char-input,
+	/* input.text-input, */
 	input.vector-input {
 		width: 3em;
 	}
@@ -133,23 +130,15 @@
 	Create ＡＥＳＴＨＥＴＩＣ square, cube, and tesseract ASCII art, and more.
 </p>
 <p>
-	The text input determines the first and second dimensions, making up a square of the given text.
-	You can configure further dimensions, with
-	the length (in drawn characters),
-	the character repeated over the line segments in that dimension,
+	You can configure each dimension with
+	the length (number of drawn glyphs minus one),
+	text to be drawn across line segments (which will be repeated if its shorter than the length),
 	and the projection’s offset vector (in characters) per unit of length.
 </p>
 <div class="two-column-layout">
 <div class="column">
 	<h3>Input</h3>
-	<form>
-		<p>
-			<label>
-				Text:
-				<input id="text-input" type="text" value="@+++++++++++@">
-			</label>
-		</p>
-	</form>
+	<form id="inputs"></form>
 </div>
 <div class="column">
 	<h3>Output</h3>
