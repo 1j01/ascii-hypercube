@@ -217,15 +217,15 @@ copy_to_clipboard_button.addEventListener("click", ->
 			(str)-> str.replace(/^/g,'    ')
 		).join('\n')
 	
-	# Select the text field
+	# Select the text field contents
 	output_textarea.select()
-	# Copy the text inside the text field
+	# Copy the text field contents to the clipboard
 	document.execCommand("copy")
 	if format_for_markdown
 		output_textarea.value = saved
 	
-	copied.className = ""
+	copied.removeAttribute("aria-hidden")
 	setTimeout(->
-		copied.className = "hidden"
-	, 1000)
+		copied.setAttribute("aria-hidden", "true")
+	, 1500)
 )

@@ -93,8 +93,10 @@
 		color: inherit;
 	}
 	#copied {
-		background-color: #f1f2f3;
-		border-radius: 15px;
+		pointer-events: hidden;
+		background-color: #00c030;
+		color: white;
+		border-radius: 100px;
 		padding: 2px 10px;
 		transition: opacity .5s ease-out;
 		-moz-transition: opacity .5s ease-out;
@@ -104,7 +106,7 @@
 		position: absolute;
 		margin-top: 5px;
 	}
-	#copied.hidden {
+	#copied[aria-hidden] {
 		opacity: 0;
 	}
 
@@ -159,8 +161,8 @@
 			<input id="format-for-markdown-checkbox" type="checkbox"/>
 		</label>
 	</span>
-	<div>
-		<span id="copied" class="hidden">Copied</span>
+	<div style="pointer-events: none"></div>
+		<span id="copied" aria-hidden="true" role="alert">Copied to Clipboard</span>
 	</div>
 </div>
 <p>
