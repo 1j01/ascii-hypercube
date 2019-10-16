@@ -223,6 +223,7 @@ markdown_format_checkbox.addEventListener("change", update_output_textarea)
 
 show_copied_indicator = ->
 	copied_indicator.removeAttribute("aria-hidden")
+	copied_indicator.innerHTML = copied_indicator.innerHTML
 	setTimeout(->
 		copied_indicator.setAttribute("aria-hidden", "true")
 	, 1500)
