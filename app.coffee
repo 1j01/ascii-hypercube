@@ -1,7 +1,8 @@
 
 grid = []
 
-n_overlapping_characters = 0 # TODO
+n_overlaps = 0
+overlaps = {}
 
 point = (char, x, y)->
 	if grid.length <= y
@@ -9,8 +10,12 @@ point = (char, x, y)->
 		grid[i] = [] for i in [grid.length..y]
 	if grid[y].length < x
 		grid[y][i] = " " for i in [grid[y].length..x]
-	# if grid[y][x] not in [undefined, " ", "/", "\\", "-", char]
-	# 	n_overlapping_characters += 1
+	existing = grid[y][x]
+	if existing? and existing isnt " " and existing isnt char
+		overlaps[existing] ?= {}
+		overlaps[existing][char] ?= 0
+		overlaps[existing][char] += 1
+		n_overlaps += 1
 	grid[y][x] = char
 
 square = (text, x, y, s)->
@@ -37,6 +42,10 @@ hypercube_points = (dimensions, char, x, y, s)->
 		square_points(char, x, y, s)
 
 hypercube = (dimensions, text, x, y)->
+
+	n_overlaps = 0
+	overlaps = {}
+
 	[dimension, further_dimensions...] = dimensions
 	{length, x_per_char, y_per_char, char} = dimension
 	s = Math.max(text.length - 1, 0)
@@ -57,8 +66,7 @@ text_input = document.getElementById("text-input")
 output_textarea = document.getElementById("output-textarea")
 copy_to_clipboard_button = document.getElementById("copy-to-clipboard")
 markdown_format_checkbox = document.getElementById("markdown-format-checkbox")
-text_is_good_indicator = document.getElementById("text-is-good")
-overlapping_characters_indicator = document.getElementById("overlapping-characters")
+overlaps_indicator = document.getElementById("overlaps")
 copied_indicator = document.getElementById("copied-to-clipboard")
 
 output_text_art = ""
@@ -81,7 +89,22 @@ update_output_textarea = ->
 	# output_textarea.style.height = "#{scroll_height + 50}px"
 	output_textarea.style.height = "#{scroll_height + padding_top + padding_bottom}px"
 	
-	# overlapping_characters_indicator.textContent = n_overlapping_characters
+	overlaps_indicator.innerHTML =
+		if n_overlaps > 0
+			"""
+			🙈 #{n_overlaps} glyphs occlude differing glyphs
+			<ul>
+			#{
+			(for under, overs of overlaps
+				(for over, n_over of overs
+					"<li><code>#{over}</code> over <code>#{under}</code> (#{n_over})</li>"
+				).join("\n")
+			).join("\n")
+			}
+			</ul>
+			"""
+		else
+			"👌 all overlapping glyphs match"
 
 # TODO: form validation
 
@@ -129,9 +152,6 @@ dimensions = [
 
 do compute = ->
 	graphemes = splitter.splitGraphemes(text_input.value)
-	text_is_good = graphemes.length > 1 and graphemes[0] is graphemes[graphemes.length-1]
-	text_is_good_indicator.style.visibility =
-		(if text_is_good then "" else "hidden")
 	
 	# NOTE: could forego having a fixed-size grid entirely
 	x = 0
@@ -151,8 +171,6 @@ do compute = ->
 			[]
 			# for [0..width]
 			# 	" "
-	
-	n_overlapping_characters = 0
 	
 	hypercube(dimensions, graphemes, x, y)
 	
