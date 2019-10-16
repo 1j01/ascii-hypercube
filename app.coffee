@@ -56,8 +56,32 @@ form = document.querySelector("form")
 text_input = document.getElementById("text-input")
 output_textarea = document.getElementById("output-textarea")
 copy_to_clipboard_button = document.getElementById("copy-to-clipboard")
+markdown_format_checkbox = document.getElementById("markdown-format-checkbox")
 text_is_good_indicator = document.getElementById("text-is-good")
 overlapping_characters_indicator = document.getElementById("overlapping-characters")
+copied_indicator = document.getElementById("copied-to-clipboard")
+
+output_text_art = ""
+update_output_textarea = ->
+	if markdown_format_checkbox.checked
+		output_textarea.value = output_text_art.split("\n").map(
+			(str)-> str.replace(/^/g,"    ")
+		).join("\n")
+	else
+		output_textarea.value = output_text_art
+	
+	style = window.getComputedStyle(output_textarea, null)
+	padding_top = parseFloat(style.getPropertyValue("padding-top"))
+	padding_bottom = parseFloat(style.getPropertyValue("padding-bottom"))
+	
+	output_textarea.style.height = "1px"
+	scroll_height = output_textarea.scrollHeight
+	# output_textarea.style.height = "#{output_textarea.scrollHeight + 50}px"
+	# console.log output_textarea.scrollHeight, padding_top, padding_bottom
+	# output_textarea.style.height = "#{scroll_height + 50}px"
+	output_textarea.style.height = "#{scroll_height + padding_top + padding_bottom}px"
+	
+	# overlapping_characters_indicator.textContent = n_overlapping_characters
 
 # TODO: form validation
 
@@ -132,24 +156,10 @@ do compute = ->
 	
 	hypercube(dimensions, graphemes, x, y)
 	
-	output_textarea.value =
+	output_text_art =
 		(line.join("") for line in grid).join("\n")
 	
-	output_textarea.setAttribute("rows", height + 1)
-	# output_textarea.setAttribute("cols", width + 1)
-	
-	style = window.getComputedStyle(output_textarea, null)
-	padding_top = parseFloat(style.getPropertyValue("padding-top"))
-	padding_bottom = parseFloat(style.getPropertyValue("padding-bottom"))
-	
-	output_textarea.style.height = "1px"
-	scroll_height = output_textarea.scrollHeight
-	# output_textarea.style.height = "#{output_textarea.scrollHeight + 50}px"
-	# console.log output_textarea.scrollHeight, padding_top, padding_bottom
-	# output_textarea.style.height = "#{scroll_height + 50}px"
-	output_textarea.style.height = "#{scroll_height + padding_top + padding_bottom}px"
-	
-	# overlapping_characters_indicator.textContent = n_overlapping_characters
+	update_output_textarea()
 
 make_dimension_row = (nd_name, dimension)->
 	container_el = document.createElement("p")
@@ -209,23 +219,17 @@ for dimension, i in dimensions by -1
 for input in document.querySelectorAll("form input")
 	input.addEventListener("input", compute)
 
+markdown_format_checkbox.addEventListener("change", update_output_textarea)
+
 copy_to_clipboard_button.addEventListener("click", ->
-	saved = output_textarea.value
-	format_for_markdown = document.getElementById('format-for-markdown-checkbox').checked
-	if format_for_markdown
-		output_textarea.value = saved.split('\n').map(
-			(str)-> str.replace(/^/g,'    ')
-		).join('\n')
-	
 	# Select the text field contents
 	output_textarea.select()
 	# Copy the text field contents to the clipboard
-	document.execCommand("copy")
-	if format_for_markdown
-		output_textarea.value = saved
+	success = document.execCommand("copy")
 	
-	copied.removeAttribute("aria-hidden")
-	setTimeout(->
-		copied.setAttribute("aria-hidden", "true")
-	, 1500)
+	if success
+		copied_indicator.removeAttribute("aria-hidden")
+		setTimeout(->
+			copied_indicator.setAttribute("aria-hidden", "true")
+		, 1500)
 )

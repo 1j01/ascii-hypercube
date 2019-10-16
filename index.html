@@ -92,7 +92,7 @@
 	a {
 		color: inherit;
 	}
-	#copied {
+	#copied-to-clipboard {
 		pointer-events: hidden;
 		background-color: #00c030;
 		color: white;
@@ -106,7 +106,7 @@
 		position: absolute;
 		margin-top: 5px;
 	}
-	#copied[aria-hidden] {
+	#copied-to-clipboard[aria-hidden] {
 		opacity: 0;
 	}
 
@@ -162,13 +162,13 @@
 	<textarea readonly id="output-textarea"></textarea>
 	<button id="copy-to-clipboard">Copy</button>
 	<span style="margin-left: 10px">
-		<label for="format-for-markdown-checkbox">
+		<label for="markdown-format-checkbox">
 			Format for Reddit
-			<input id="format-for-markdown-checkbox" type="checkbox"/>
+			<input id="markdown-format-checkbox" type="checkbox"/>
 		</label>
 	</span>
 	<div style="pointer-events: none"></div>
-		<span id="copied" aria-hidden="true" role="alert">Copied to Clipboard</span>
+		<span id="copied-to-clipboard" aria-hidden="true" role="alert">Copied to Clipboard</span>
 	</div>
 </div>
 </div>
