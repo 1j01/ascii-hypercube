@@ -59,10 +59,19 @@ text_is_good_indicator = document.getElementById("text-is-good")
 overlapping_characters_indicator = document.getElementById("overlapping-characters")
 
 # TODO: form validation
-# TODO: allow configuring the offset per drawn character for the "extra" dimensions
-# TODO: allow configuring the characters/strings drawn for each dimension
-# you should be able to do e.g. a rectangle of TOAST x TEST
-### or...
+
+### TODO: treat the first two dimensions similarly to the other dimensions
+allow configuring more than a single glyph for each dimension, repeated if needed,
+but able to specify whole strings of text for any side
+you should be able to do e.g. a rectangle of TOAST x TEST
+
+    T O A S T
+    E       E
+    S       S
+    T O A S T
+
+or...
+
 	O N E → T W O
 	N           N
 	E           E
@@ -70,6 +79,19 @@ overlapping_characters_indicator = document.getElementById("overlapping-characte
 	T           T
 	W           W
 	O N E → T W O
+
+as well as things like
+
+    C U B I C
+    U U     U U
+    B   B   B   B
+    I     I I     I
+    C U B I C U B I C
+      U     U U     U
+        B   B   B   B
+          I I     I I
+            C U B I C
+
 ###
 
 splitter = new GraphemeSplitter
