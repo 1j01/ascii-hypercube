@@ -149,11 +149,11 @@
   </p>
   <output>
     <textarea readonly id="output-textarea"></textarea>
-    <button onclick="javascript:copyToClipboard()" >Copy</button>
+    <button id="copy-to-clipboard">Copy</button>
     <span style="margin-left: 10px">
-      <label for="reddit-check">
+      <label for="format-for-markdown-checkbox">
         Format for Reddit
-        <input id="reddit-check" type="checkbox"/>
+        <input id="format-for-markdown-checkbox" type="checkbox"/>
       </label>
     </span>
     <div>
@@ -164,8 +164,9 @@
 <p>
   The output is intended to be used with a <a href="https://en.wikipedia.org/wiki/Monospaced_font"><strong>monospaced font</strong></a>.
   To get monospacing on Reddit, GitHub, and other places that support <a href="https://daringfireball.net/projects/markdown/syntax">Markdown</a>,
-  indent the output by four (4) spaces.
-  <!-- TODO: button to indent (also should the textarea be editable? so you can paste in other text to indent, e.g.?) -->
+  check "Format for Reddit" above.
+</p>
+<p>
   You may also find an option to create "code blocks" in some services/apps
   by selecting text and clicking an icon that generally looks like <span style="font-family: monospace">&lt;&gt;</span>.
 </p>
@@ -182,34 +183,5 @@
 </footer>
 
 <script src="./app.coffee" type="text/coffeescript"></script>
-<script>
- function copyToClipboard() {
-   var copyText = document.getElementById("output-textarea");
-   var saved = copyText.value;
-   var redditCheck = document.getElementById('reddit-check').checked;
-
-   if (redditCheck ) {
-     copyText.value = saved.split('\n').map(
-       function(str) {
-         return str.replace(/^/g,'    ');
-       }
-     ).join('\n');
-   }
-
-   /* Select the text field */
-   copyText.select();
-
-   /* Copy the text inside the text field */
-   document.execCommand("copy");
-
-   if (redditCheck ) {
-     copyText.value = saved;
-   }
-   copied.className = "";
-   setTimeout(function() {
-     copied.className = "hidden"
-   }, 1000);
- }
-</script>
 
 </body>

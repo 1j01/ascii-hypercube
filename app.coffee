@@ -55,6 +55,7 @@ hypercube = (dimensions, text, x, y)->
 form = document.querySelector("form")
 text_input = document.getElementById("text-input")
 output_textarea = document.getElementById("output-textarea")
+copy_to_clipboard_button = document.getElementById("copy-to-clipboard")
 text_is_good_indicator = document.getElementById("text-is-good")
 overlapping_characters_indicator = document.getElementById("overlapping-characters")
 
@@ -208,3 +209,23 @@ for dimension, i in dimensions by -1
 for input in document.querySelectorAll("form input")
 	input.addEventListener("input", compute)
 
+copy_to_clipboard_button.addEventListener("click", ->
+	saved = output_textarea.value
+	format_for_markdown = document.getElementById('format-for-markdown-checkbox').checked
+	if format_for_markdown
+		output_textarea.value = saved.split('\n').map(
+			(str)-> str.replace(/^/g,'    ')
+		).join('\n')
+	
+	# Select the text field
+	output_textarea.select()
+	# Copy the text inside the text field
+	document.execCommand("copy")
+	if format_for_markdown
+		output_textarea.value = saved
+	
+	copied.className = ""
+	setTimeout(->
+		copied.className = "hidden"
+	, 1000)
+)
