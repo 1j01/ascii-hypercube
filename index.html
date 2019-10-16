@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>ASCII Hypercube</title>
@@ -32,6 +32,9 @@
 	h1, h2, h3, h4, h5, h6, p, p ~ output {
 		margin: 1.5rem 0;
 		display: block;
+	}
+	#output-textarea {
+		margin-top: 1.5rem;
 	}
 	p {
 		max-width: 65em;
@@ -136,10 +139,10 @@
 			<label>
 				Text:
 				<input id="text-input" type="text" value="@+++++++++++@">
-				<output id="text-is-good">👌 (first character same as last)</output>
-				<!-- TODO: symmetric indicator (it's *more* important to know when it's not 👌) -->
-				<!-- also really the important thing is whether overlapping characters match or not -->
 			</label>
+			<output id="text-is-good">👌 (first character same as last)</output>
+			<!-- TODO: symmetric indicator (it's *more* important to know when it's not 👌) -->
+			<!-- also really the important thing is whether overlapping characters match or not -->
 		</p>
 	</form>
 </div>
@@ -148,19 +151,17 @@
 	<p>
 		Note: <output id="overlapping-characters">there may be</output> overlapping characters.
 	</p>
-	<output>
-		<textarea readonly id="output-textarea"></textarea>
-		<button id="copy-to-clipboard">Copy</button>
-		<span style="margin-left: 10px">
-			<label for="format-for-markdown-checkbox">
-				Format for Reddit
-				<input id="format-for-markdown-checkbox" type="checkbox"/>
-			</label>
-		</span>
-		<div>
-			<span id="copied" class="hidden">Copied</span>
-		</div>
-	</output>
+	<textarea readonly id="output-textarea"></textarea>
+	<button id="copy-to-clipboard">Copy</button>
+	<span style="margin-left: 10px">
+		<label for="format-for-markdown-checkbox">
+			Format for Reddit
+			<input id="format-for-markdown-checkbox" type="checkbox"/>
+		</label>
+	</span>
+	<div>
+		<span id="copied" class="hidden">Copied</span>
+	</div>
 </div>
 <p>
 	The output is intended to be used with a <a href="https://en.wikipedia.org/wiki/Monospaced_font"><strong>monospaced font</strong></a>.
