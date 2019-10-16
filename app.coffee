@@ -221,15 +221,22 @@ for input in document.querySelectorAll("form input")
 
 markdown_format_checkbox.addEventListener("change", update_output_textarea)
 
+show_copied_indicator = ->
+	copied_indicator.removeAttribute("aria-hidden")
+	setTimeout(->
+		copied_indicator.setAttribute("aria-hidden", "true")
+	, 1500)
+
 copy_to_clipboard_button.addEventListener("click", ->
-	# Select the text field contents
-	output_textarea.select()
-	# Copy the text field contents to the clipboard
-	success = document.execCommand("copy")
-	
-	if success
-		copied_indicator.removeAttribute("aria-hidden")
-		setTimeout(->
-			copied_indicator.setAttribute("aria-hidden", "true")
-		, 1500)
+
+	if navigator.clipboard?.writeText
+		navigator.clipboard.writeText(output_textarea.value).then(show_copied_indicator)
+	else
+		# Select the text field contents
+		output_textarea.select()
+		# Copy the text field contents to the clipboard
+		success = document.execCommand("copy")
+		
+		if success
+			show_copied_indicator()
 )
