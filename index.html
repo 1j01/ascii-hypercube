@@ -110,12 +110,17 @@
 		opacity: 0;
 	}
 
-
-	@media (min-width: 800px) {
-		.two-column {
-			vertical-align: top;
-			width: 45%;
-			display: inline-block;
+	.two-column-layout {
+		display: flex;
+		flex-direction: column; /* i.e. NOT a two column layout */
+	}
+	.two-column-layout .column {
+		flex-basis: 50%;
+		flex-grow: 1;
+	}
+	@media (min-width: 1000px) {
+		.two-column-layout {
+			flex-direction: row;
 		}
 	}
 </style>
@@ -134,7 +139,8 @@
 	the character repeated over the line segments in that dimension,
 	and the projection’s offset vector (in characters) per unit of length.
 </p>
-<div class="two-column">
+<div class="two-column-layout">
+<div class="column">
 	<h3>Input</h3>
 	<form>
 		<p>
@@ -148,7 +154,7 @@
 		</p>
 	</form>
 </div>
-<div class="two-column">
+<div class="column">
 	<h3>Output</h3>
 	<p>
 		Note: <output id="overlapping-characters">there may be</output> overlapping characters.
@@ -164,6 +170,7 @@
 	<div style="pointer-events: none"></div>
 		<span id="copied" aria-hidden="true" role="alert">Copied to Clipboard</span>
 	</div>
+</div>
 </div>
 <p>
 	The output is intended to be used with a <a href="https://en.wikipedia.org/wiki/Monospaced_font"><strong>monospaced font</strong></a>.
