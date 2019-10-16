@@ -4,7 +4,7 @@ grid = []
 n_overlaps = 0
 overlaps = {}
 
-point = (char, x, y)->
+point = (glyph, x, y)->
 	if grid.length <= y
 		console?.warn? "Expanding vertically"
 		for i in [grid.length..y]
@@ -13,22 +13,22 @@ point = (char, x, y)->
 		for i in [grid[y].length..x]
 			grid[y][i] = " "
 	existing = grid[y][x]
-	if existing? and existing isnt " " and existing isnt char
+	if existing? and existing isnt " " and existing isnt glyph
 		overlaps[existing] ?= {}
-		overlaps[existing][char] ?= 0
-		overlaps[existing][char] += 1
+		overlaps[existing][glyph] ?= 0
+		overlaps[existing][glyph] += 1
 		n_overlaps += 1
-	grid[y][x] = char
+	grid[y][x] = glyph
 
-hypercube_points = (dimensions, char, x, y)->
+hypercube_points = (dimensions, glyph, x, y)->
 	# XXX: WET; need to refactor recursion
 	[dimension, further_dimensions...] = dimensions
-	{length, x_per_char, y_per_char} = dimension
+	{length, x_per_glyph, y_per_glyph} = dimension
 	if further_dimensions.length
-		hypercube_points(further_dimensions, char, x, y)
-		hypercube_points(further_dimensions, char, x + further_dimensions[0].length * further_dimensions[0].x_per_char, y + further_dimensions[0].length * further_dimensions[0].y_per_char)
+		hypercube_points(further_dimensions, glyph, x, y)
+		hypercube_points(further_dimensions, glyph, x + further_dimensions[0].length * further_dimensions[0].x_per_glyph, y + further_dimensions[0].length * further_dimensions[0].y_per_glyph)
 	else
-		point(char, x, y)
+		point(glyph, x, y)
 
 hypercube = (dimensions, x, y)->
 
@@ -36,20 +36,20 @@ hypercube = (dimensions, x, y)->
 	overlaps = {}
 
 	[dimension, further_dimensions...] = dimensions
-	{length, x_per_char, y_per_char, text} = dimension
+	{length, x_per_glyph, y_per_glyph, text} = dimension
 	
 	graphemes = splitter.splitGraphemes(text)
 	# TODO: handle no graphemes
 	if length > 0
 		for i in [1..length]
-			char = graphemes[i % graphemes.length]
-			hypercube_points(dimensions, char, x + i * x_per_char, y + i * y_per_char)
+			glyph = graphemes[i % graphemes.length]
+			hypercube_points(dimensions, glyph, x + i * x_per_glyph, y + i * y_per_glyph)
 	if further_dimensions.length
 		hypercube(further_dimensions, x, y)
-		hypercube(further_dimensions, x + length * x_per_char, y + length * y_per_char)
+		hypercube(further_dimensions, x + length * x_per_glyph, y + length * y_per_glyph)
 	else
 		point(graphemes[0], x, y)
-		point(graphemes[graphemes.length - 1], x + length * x_per_char, y + length * y_per_char)
+		point(graphemes[graphemes.length - 1], x + length * x_per_glyph, y + length * y_per_glyph)
 
 
 form = document.getElementById("inputs")
@@ -102,11 +102,11 @@ splitter = new GraphemeSplitter
 
 # TODO: define dimensions forwards
 dimensions = [
-	{length: 0, x_per_char: -1, y_per_char: 1, text: "/"}
-	{length: 0, x_per_char: 3, y_per_char: 1, text: "~"}
-	{length: 2, x_per_char: 2, y_per_char: 1, text: "\\"}
-	{length: 4, x_per_char: 0, y_per_char: 1, text: "CUBIC"}
-	{length: 4, x_per_char: 2, y_per_char: 0, text: "CUBIC"}
+	{length: 0, x_per_glyph: -1, y_per_glyph: 1, text: "/"}
+	{length: 0, x_per_glyph: 3, y_per_glyph: 1, text: "~"}
+	{length: 2, x_per_glyph: 2, y_per_glyph: 1, text: "\\"}
+	{length: 4, x_per_glyph: 0, y_per_glyph: 1, text: "CUBIC"}
+	{length: 4, x_per_glyph: 2, y_per_glyph: 0, text: "CUBIC"}
 ]
 
 do compute = ->
@@ -116,10 +116,10 @@ do compute = ->
 	width = 0
 	height = 0
 	for dimension in dimensions
-		width = Math.max(width, width + dimension.length * dimension.x_per_char)
-		height = Math.max(height, height + dimension.length * dimension.y_per_char)
-		x = Math.max(x, x - dimension.length * dimension.x_per_char)
-		y = Math.max(y, y - dimension.length * dimension.y_per_char)
+		width = Math.max(width, width + dimension.length * dimension.x_per_glyph)
+		height = Math.max(height, height + dimension.length * dimension.y_per_glyph)
+		x = Math.max(x, x - dimension.length * dimension.x_per_glyph)
+		y = Math.max(y, y - dimension.length * dimension.y_per_glyph)
 	width += x
 	height += y
 	grid =
@@ -169,15 +169,15 @@ make_dimension_row = (nd_name, dimension)->
 	offset_input = document.createElement("input")
 	offset_input.type = "text"
 	offset_input.className = "vector-input"
-	offset_input.value = "#{dimension.x_per_char}, #{dimension.y_per_char}"
+	offset_input.value = "#{dimension.x_per_glyph}, #{dimension.y_per_glyph}"
 	offset_input.required = true
 	offset_input.pattern = "-?\\d+\\s*,\\s*-?\\d+"
 	offset_input.addEventListener "input", ->
 		[x_str, y_str] = offset_input.value.split(",")
 		unless isNaN(parseInt(x_str))
-			dimension.x_per_char = parseInt(x_str)
+			dimension.x_per_glyph = parseInt(x_str)
 		unless isNaN(parseInt(y_str))
-			dimension.y_per_char = parseInt(y_str)
+			dimension.y_per_glyph = parseInt(y_str)
 		compute()
 	label_el.appendChild(document.createTextNode("Offset per glyph: "))
 	label_el.appendChild(offset_input)
@@ -197,11 +197,11 @@ markdown_format_checkbox.addEventListener("change", update_output_textarea)
 show_copied_indicator = ->
 	copied_indicator.removeAttribute("aria-hidden")
 	copied_indicator.innerHTML = copied_indicator.innerHTML
-	setTimeout(->
+	setTimeout ->
 		copied_indicator.setAttribute("aria-hidden", "true")
-	, 1500)
+	, 1500
 
-copy_to_clipboard_button.addEventListener("click", ->
+copy_to_clipboard_button.addEventListener "click", ->
 
 	if navigator.clipboard?.writeText
 		navigator.clipboard.writeText(output_textarea.value).then(show_copied_indicator)
@@ -213,4 +213,3 @@ copy_to_clipboard_button.addEventListener("click", ->
 		
 		if success
 			show_copied_indicator()
-)
