@@ -149,21 +149,6 @@ make_dimension_row = (nd_name, dimension)->
 	container_el = document.createElement("p")
 	
 	label_el = document.createElement("label")
-	length_input = document.createElement("input")
-	length_input.type = "number"
-	length_input.min = 0
-	length_input.step = 1
-	length_input.value = dimension.length
-	length_input.required = true
-	length_input.addEventListener "input", ->
-		unless isNaN(parseInt(length_input.value))
-			dimension.length = parseInt(length_input.value)
-		compute()
-	label_el.appendChild(document.createTextNode("#{nd_name} length: "))
-	label_el.appendChild(length_input)
-	container_el.appendChild(label_el)
-	
-	label_el = document.createElement("label")
 	text_input = document.createElement("input")
 	text_input.type = "text"
 	text_input.className = "text-input"
@@ -175,8 +160,24 @@ make_dimension_row = (nd_name, dimension)->
 			dimension.length = length_for_text
 			length_input.value = length_for_text
 		compute()
+	label_el.appendChild(document.createTextNode("#{nd_name} "))
 	label_el.appendChild(document.createTextNode("Text: "))
 	label_el.appendChild(text_input)
+	container_el.appendChild(label_el)
+	
+	label_el = document.createElement("label")
+	length_input = document.createElement("input")
+	length_input.type = "number"
+	length_input.min = 0
+	length_input.step = 1
+	length_input.value = dimension.length
+	length_input.required = true
+	length_input.addEventListener "input", ->
+		unless isNaN(parseInt(length_input.value))
+			dimension.length = parseInt(length_input.value)
+		compute()
+	label_el.appendChild(document.createTextNode("Length: "))
+	label_el.appendChild(length_input)
 	container_el.appendChild(label_el)
 	
 	label_el = document.createElement("label")
