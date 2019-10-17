@@ -58,12 +58,6 @@ overlap_summary = document.getElementById("overlap-summary")
 overlap_details = document.getElementById("overlap-details")
 copied_indicator = document.getElementById("copied-to-clipboard")
 
-overlaps_expanded = false
-overlap_summary.addEventListener "click", ->
-	overlaps_expanded = not overlaps_expanded
-	overlap_details.style.display = if overlaps_expanded then "" else "none"
-overlap_summary.style.cursor = "pointer"
-
 output_text_art = ""
 update_output_area = ->
 	if markdown_format_checkbox.checked
