@@ -21,17 +21,14 @@ point = (glyph, x, y)->
 	grid[y][x] = glyph
 
 hypercube_points = (dimensions, glyph, x, y)->
-	# TODO: refactor recursion
-	# - there's duplicated code between `hypercube` and `hypercube_points`
-	# - peeking into further_dimensions[0] is very suspicious
-	# - and actually it doesn't seem to use the first dimension it's passed
-	[dimension, further_dimensions...] = dimensions
-	{length, x_per_glyph, y_per_glyph} = dimension
-	if further_dimensions.length
-		hypercube_points(further_dimensions, glyph, x, y)
-		hypercube_points(further_dimensions, glyph,
-			x + further_dimensions[0].length * further_dimensions[0].x_per_glyph,
-			y + further_dimensions[0].length * further_dimensions[0].y_per_glyph
+
+	[_, dimensions...] = dimensions
+
+	if dimensions.length
+		hypercube_points(dimensions, glyph, x, y)
+		hypercube_points(dimensions, glyph,
+			x + dimensions[0].length * dimensions[0].x_per_glyph,
+			y + dimensions[0].length * dimensions[0].y_per_glyph
 		)
 	else
 		point(glyph, x, y)
