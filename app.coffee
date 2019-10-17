@@ -48,7 +48,6 @@ hypercube = (dimensions, x, y)->
 		hypercube(further_dimensions, x + length * x_per_glyph, y + length * y_per_glyph)
 	else
 		point(glyphs[0], x, y)
-		point(glyphs[glyphs.length - 1], x + length * x_per_glyph, y + length * y_per_glyph)
 
 
 form = document.getElementById("inputs")
