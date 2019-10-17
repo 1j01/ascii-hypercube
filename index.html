@@ -122,14 +122,19 @@
 		display: flex;
 		flex-direction: column; /* i.e. NOT a two column layout */
 	}
-	.two-column-layout .column {
-		flex-basis: 50%;
-		flex-grow: 1;
-	}
-	@media (min-width: 1000px) {
+	@media (min-width: 1200px) {
 		.two-column-layout {
 			flex-direction: row;
 		}
+		#input-column {
+			margin-right: 15px;
+		}
+	}
+	#output-column {
+		flex-grow: 1;
+	}
+	#input-column {
+		flex-grow: 0.1;
 	}
 </style>
 <header>
@@ -147,14 +152,14 @@
 	and the projection’s offset vector (in characters) per unit of length.
 </p>
 <div class="two-column-layout">
-<div class="column">
+<div class="column" id="input-column">
 	<h3>Input</h3>
 	<form>
 		<div id="inputs"></div>
 		<button id="add-dimension" type="button">Add Dimension</button>
 	</form>
 </div>
-<div class="column">
+<div class="column" id="output-column">
 	<h3>Output</h3>
 	<details id="overlaps">
 		<summary id="overlap-summary"></summary>
