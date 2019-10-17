@@ -25,7 +25,7 @@ plot_hypercube_vertices = (dimensions, glyph, x, y)->
 	[further_dimensions..., _] = dimensions
 
 	if further_dimensions.length
-		dimension = further_dimensions[further_dimensions.length - 1]
+		[..., dimension] = further_dimensions
 		plot_hypercube_vertices(further_dimensions, glyph, x, y)
 		plot_hypercube_vertices(further_dimensions, glyph,
 			x + dimension.length * dimension.x_per_glyph
