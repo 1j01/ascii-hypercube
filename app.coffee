@@ -51,6 +51,7 @@ plot_hypercube = (dimensions, x, y)->
 
 
 form = document.getElementById("inputs")
+add_dimension_button = document.getElementById("add-dimension")
 output_textarea = document.getElementById("output-textarea")
 copy_to_clipboard_button = document.getElementById("copy-to-clipboard")
 markdown_format_checkbox = document.getElementById("markdown-format-checkbox")
@@ -193,6 +194,18 @@ make_dimension_row = (nd_name, dimension)->
 for dimension, i in dimensions
 	el = make_dimension_row("#{i + 1}D", dimension)
 	form.appendChild(el)
+
+add_dimension_button.addEventListener "click", ->
+	x_per_glyph = ~~(Math.random() * 5) - 2
+	y_per_glyph = ~~(Math.random() * 5) - 2
+	length = ~~(Math.random() * 5) + 2
+	if x_per_glyph is 0 and y_per_glyph is 0
+		y_per_glyph = 5
+	dimension = {length, x_per_glyph, y_per_glyph, text: "*"}
+	dimensions.push(dimension)
+	el = make_dimension_row("#{dimensions.length}D", dimension)
+	form.appendChild(el)
+	compute()
 
 for input in document.querySelectorAll("form input")
 	input.addEventListener("input", compute)

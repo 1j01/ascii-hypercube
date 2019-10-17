@@ -33,7 +33,8 @@
 		margin: 1.5rem 0;
 		display: block;
 	}
-	#output-textarea {
+	#output-textarea,
+	#add-dimension {
 		margin-top: 1.5rem;
 	}
 	p {
@@ -142,7 +143,10 @@
 <div class="two-column-layout">
 <div class="column">
 	<h3>Input</h3>
-	<form id="inputs"></form>
+	<form>
+		<div id="inputs"></div>
+		<button id="add-dimension" type="button">Add Dimension</button>
+	</form>
 </div>
 <div class="column">
 	<h3>Output</h3>
