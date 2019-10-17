@@ -21,7 +21,10 @@ point = (glyph, x, y)->
 	grid[y][x] = glyph
 
 hypercube_points = (dimensions, glyph, x, y)->
-	# XXX: WET; need to refactor recursion
+	# TODO: refactor recursion
+	# - there's duplicated code between `hypercube` and `hypercube_points`
+	# - peeking into further_dimensions[0] is very suspicious
+	# - and actually it doesn't seem to use the first dimension it's passed
 	[dimension, further_dimensions...] = dimensions
 	{length, x_per_glyph, y_per_glyph} = dimension
 	if further_dimensions.length
@@ -38,15 +41,14 @@ hypercube = (dimensions, x, y)->
 	[dimension, further_dimensions...] = dimensions
 	{length, x_per_glyph, y_per_glyph, glyphs} = dimension
 	
-	# TODO: handle no glyphs
-	if length > 0
+	if length > 0 and glyphs.length > 0
 		for i in [1..length]
 			glyph = glyphs[i % glyphs.length]
 			hypercube_points(dimensions, glyph, x + i * x_per_glyph, y + i * y_per_glyph)
 	if further_dimensions.length
 		hypercube(further_dimensions, x, y)
 		hypercube(further_dimensions, x + length * x_per_glyph, y + length * y_per_glyph)
-	else
+	else if glyphs.length > 0
 		point(glyphs[0], x, y)
 
 
@@ -171,7 +173,7 @@ make_dimension_row = (nd_name, dimension)->
 	text_input.className = "text-input"
 	text_input.value = dimension.text
 	text_input.addEventListener "input", ->
-		dimension.text = text_input.value or " "
+		dimension.text = text_input.value
 		compute()
 	label_el.appendChild(document.createTextNode("Text: "))
 	label_el.appendChild(text_input)
