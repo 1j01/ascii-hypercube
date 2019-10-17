@@ -35,9 +35,6 @@ hypercube_points = (dimensions, glyph, x, y)->
 
 hypercube = (dimensions, x, y)->
 
-	n_overlaps = 0
-	overlaps = {}
-
 	[dimension, further_dimensions...] = dimensions
 	{length, x_per_glyph, y_per_glyph, glyphs} = dimension
 	
@@ -129,6 +126,9 @@ do compute = ->
 			# for [0..width]
 			# 	" "
 	
+	n_overlaps = 0
+	overlaps = {}
+
 	reversed_dimensions = [dimensions...].reverse() # reverse() operates *in-place*
 	for dimension in reversed_dimensions
 		dimension.glyphs = splitter.splitGraphemes(dimension.text)
