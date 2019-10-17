@@ -170,6 +170,10 @@ make_dimension_row = (nd_name, dimension)->
 	text_input.value = dimension.text
 	text_input.addEventListener "input", ->
 		dimension.text = text_input.value
+		length_for_text = splitter.splitGraphemes(dimension.text).length - 1
+		if length_for_text > dimension.length
+			dimension.length = length_for_text
+			length_input.value = length_for_text
 		compute()
 	label_el.appendChild(document.createTextNode("Text: "))
 	label_el.appendChild(text_input)
