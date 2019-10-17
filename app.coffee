@@ -26,7 +26,10 @@ hypercube_points = (dimensions, glyph, x, y)->
 	{length, x_per_glyph, y_per_glyph} = dimension
 	if further_dimensions.length
 		hypercube_points(further_dimensions, glyph, x, y)
-		hypercube_points(further_dimensions, glyph, x + further_dimensions[0].length * further_dimensions[0].x_per_glyph, y + further_dimensions[0].length * further_dimensions[0].y_per_glyph)
+		hypercube_points(further_dimensions, glyph,
+			x + further_dimensions[0].length * further_dimensions[0].x_per_glyph,
+			y + further_dimensions[0].length * further_dimensions[0].y_per_glyph
+		)
 	else
 		point(glyph, x, y)
 
@@ -99,13 +102,12 @@ update_output_textarea = ->
 
 splitter = new GraphemeSplitter
 
-# TODO: define dimensions forwards
 dimensions = [
-	{length: 0, x_per_glyph: -1, y_per_glyph: 1, text: "/"}
-	{length: 0, x_per_glyph: 3, y_per_glyph: 1, text: "~"}
-	{length: 2, x_per_glyph: 2, y_per_glyph: 1, text: "\\"}
-	{length: 4, x_per_glyph: 0, y_per_glyph: 1, text: "CUBIC"}
 	{length: 4, x_per_glyph: 2, y_per_glyph: 0, text: "CUBIC"}
+	{length: 4, x_per_glyph: 0, y_per_glyph: 1, text: "CUBIC"}
+	{length: 2, x_per_glyph: 2, y_per_glyph: 1, text: "\\"}
+	{length: 0, x_per_glyph: 3, y_per_glyph: 1, text: "~"}
+	{length: 0, x_per_glyph: -1, y_per_glyph: 1, text: "/"}
 ]
 
 do compute = ->
@@ -127,10 +129,11 @@ do compute = ->
 			# for [0..width]
 			# 	" "
 	
-	for dimension in dimensions
+	reversed_dimensions = [dimensions...].reverse() # reverse() operates *in-place*
+	for dimension in reversed_dimensions
 		dimension.glyphs = splitter.splitGraphemes(dimension.text)
 
-	hypercube(dimensions, x, y)
+	hypercube(reversed_dimensions, x, y)
 	
 	output_text_art =
 		(line.join("") for line in grid).join("\n")
@@ -187,8 +190,8 @@ make_dimension_row = (nd_name, dimension)->
 	
 	container_el
 
-for dimension, i in dimensions by -1
-	el = make_dimension_row("#{dimensions.length - i}D", dimension)
+for dimension, i in dimensions
+	el = make_dimension_row("#{i + 1}D", dimension)
 	form.appendChild(el)
 
 for input in document.querySelectorAll("form input")
