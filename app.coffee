@@ -57,8 +57,14 @@ markdown_format_checkbox = document.getElementById("markdown-format-checkbox")
 overlaps_indicator = document.getElementById("overlaps")
 copied_indicator = document.getElementById("copied-to-clipboard")
 
+overlaps_expanded = false
+overlaps_indicator.addEventListener "click", ->
+	overlaps_expanded = not overlaps_expanded
+	update_output_area()
+overlaps_indicator.style.cursor = "pointer"
+
 output_text_art = ""
-update_output_textarea = ->
+update_output_area = ->
 	if markdown_format_checkbox.checked
 		output_textarea.value = output_text_art.split("\n").map(
 			(str)-> str.replace(/^/g,"    ")
@@ -79,18 +85,17 @@ update_output_textarea = ->
 	
 	overlaps_indicator.innerHTML =
 		if n_overlaps > 0
-			"""
-			🙈 #{n_overlaps} glyphs occlude differing glyphs
-			<ul>
-			#{
-			(for under, overs of overlaps
-				(for over, n_over of overs
-					"<li><code>#{over}</code> over <code>#{under}</code> (#{n_over})</li>"
-				).join("\n")
-			).join("\n")
-			}
-			</ul>
-			"""
+			"🙈 #{n_overlaps} glyphs occlude differing glyphs" +
+			if overlaps_expanded
+				"<ul>#{
+					(for under, overs of overlaps
+						(for over, n_over of overs
+							"<li><code>#{over}</code> over <code>#{under}</code> (#{n_over})</li>"
+						).join("\n")
+					).join("\n")
+				}</ul>"
+			else
+				""
 		else
 			"👌 all overlapping glyphs match"
 
@@ -137,7 +142,7 @@ do compute = ->
 	output_text_art =
 		(line.join("") for line in grid).join("\n")
 	
-	update_output_textarea()
+	update_output_area()
 
 make_dimension_row = (nd_name, dimension)->
 	container_el = document.createElement("p")
@@ -196,7 +201,7 @@ for dimension, i in dimensions
 for input in document.querySelectorAll("form input")
 	input.addEventListener("input", compute)
 
-markdown_format_checkbox.addEventListener("change", update_output_textarea)
+markdown_format_checkbox.addEventListener("change", update_output_area)
 
 show_copied_indicator = ->
 	copied_indicator.removeAttribute("aria-hidden")
