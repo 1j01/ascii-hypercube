@@ -107,6 +107,11 @@
 	#copied-to-clipboard[aria-hidden] {
 		opacity: 0;
 	}
+	@keyframes bump {
+		0% { transform: translateY(0); }
+		40% { transform: translateY(-5px); }
+		100% { transform: translateY(0); }
+	}
 
 	details summary {
 		cursor: pointer;

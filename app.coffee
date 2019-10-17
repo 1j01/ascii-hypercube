@@ -212,12 +212,20 @@ for input in document.querySelectorAll("form input")
 
 markdown_format_checkbox.addEventListener("change", update_output_area)
 
+tid = -1
 show_copied_indicator = ->
 	copied_indicator.removeAttribute("aria-hidden")
 	copied_indicator.innerHTML = copied_indicator.innerHTML
-	setTimeout ->
+	clearTimeout(tid)
+	tid = setTimeout ->
 		copied_indicator.setAttribute("aria-hidden", "true")
 	, 1500
+	
+	setTimeout ->
+		copied_indicator.style.animation = "bump 0.2s 1"
+	, 15
+copied_indicator.addEventListener "animationend", ->
+	copied_indicator.style.animation = "none"
 
 copy_to_clipboard_button.addEventListener "click", ->
 
