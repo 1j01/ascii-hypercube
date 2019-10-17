@@ -54,14 +54,15 @@ form = document.getElementById("inputs")
 output_textarea = document.getElementById("output-textarea")
 copy_to_clipboard_button = document.getElementById("copy-to-clipboard")
 markdown_format_checkbox = document.getElementById("markdown-format-checkbox")
-overlaps_indicator = document.getElementById("overlaps")
+overlap_summary = document.getElementById("overlap-summary")
+overlap_details = document.getElementById("overlap-details")
 copied_indicator = document.getElementById("copied-to-clipboard")
 
 overlaps_expanded = false
-overlaps_indicator.addEventListener "click", ->
+overlap_summary.addEventListener "click", ->
 	overlaps_expanded = not overlaps_expanded
-	update_output_area()
-overlaps_indicator.style.cursor = "pointer"
+	overlap_details.style.display = if overlaps_expanded then "" else "none"
+overlap_summary.style.cursor = "pointer"
 
 output_text_art = ""
 update_output_area = ->
@@ -83,21 +84,23 @@ update_output_area = ->
 	# output_textarea.style.height = "#{scroll_height + 50}px"
 	output_textarea.style.height = "#{scroll_height + padding_top + padding_bottom}px"
 	
-	overlaps_indicator.innerHTML =
+	overlap_summary.textContent =
 		if n_overlaps > 0
-			"🙈 #{n_overlaps} glyphs occlude differing glyphs" +
-			if overlaps_expanded
-				"<ul>#{
-					(for under, overs of overlaps
-						(for over, n_over of overs
-							"<li><code>#{over}</code> over <code>#{under}</code> (#{n_over})</li>"
-						).join("\n")
-					).join("\n")
-				}</ul>"
-			else
-				""
+			"🙈 #{n_overlaps} glyphs occlude differing glyphs"
 		else
 			"👌 all overlapping glyphs match"
+
+	overlap_details.innerHTML =
+		if n_overlaps > 0
+			"<ul>#{
+				(for under, overs of overlaps
+					(for over, n_over of overs
+						"<li><code>#{over}</code> over <code>#{under}</code> (#{n_over})</li>"
+					).join("\n")
+				).join("\n")
+			}</ul>"
+		else
+			"<i>Specific occluding glyphs would be listed here.</i>"
 
 # TODO: form validation
 
