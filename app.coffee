@@ -4,7 +4,7 @@ grid = []
 n_overlaps = 0
 overlaps = {}
 
-plot_point = (glyph, x, y)->
+plot_glyph = (glyph, x, y)->
 	if grid.length <= y
 		console?.warn? "Expanding vertically"
 		for i in [grid.length..y]
@@ -20,18 +20,18 @@ plot_point = (glyph, x, y)->
 		n_overlaps += 1
 	grid[y][x] = glyph
 
-plot_hypercube_points = (dimensions, glyph, x, y)->
+plot_hypercube_vertices = (dimensions, glyph, x, y)->
 
 	[_, dimensions...] = dimensions
 
 	if dimensions.length
-		plot_hypercube_points(dimensions, glyph, x, y)
-		plot_hypercube_points(dimensions, glyph,
+		plot_hypercube_vertices(dimensions, glyph, x, y)
+		plot_hypercube_vertices(dimensions, glyph,
 			x + dimensions[0].length * dimensions[0].x_per_glyph,
 			y + dimensions[0].length * dimensions[0].y_per_glyph
 		)
 	else
-		plot_point(glyph, x, y)
+		plot_glyph(glyph, x, y)
 
 plot_hypercube = (dimensions, x, y)->
 
@@ -41,12 +41,12 @@ plot_hypercube = (dimensions, x, y)->
 	if length > 0 and glyphs.length > 0
 		for i in [1..length]
 			glyph = glyphs[i % glyphs.length]
-			plot_hypercube_points(dimensions, glyph, x + i * x_per_glyph, y + i * y_per_glyph)
+			plot_hypercube_vertices(dimensions, glyph, x + i * x_per_glyph, y + i * y_per_glyph)
 	if further_dimensions.length
 		plot_hypercube(further_dimensions, x, y)
 		plot_hypercube(further_dimensions, x + length * x_per_glyph, y + length * y_per_glyph)
 	else if glyphs.length > 0
-		plot_point(glyphs[0], x, y)
+		plot_glyph(glyphs[0], x, y)
 
 
 form = document.getElementById("inputs")
