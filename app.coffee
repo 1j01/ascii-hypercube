@@ -43,11 +43,15 @@ plot_hypercube = (dimensions, x, y)->
 		for i in [1..length]
 			glyph = glyphs[i % glyphs.length]
 			plot_hypercube_vertices(dimensions, glyph, x + i * x_per_glyph, y + i * y_per_glyph)
-	if further_dimensions.length
+	if length > 0
+		if further_dimensions.length
+			plot_hypercube(further_dimensions, x, y)
+			plot_hypercube(further_dimensions, x + length * x_per_glyph, y + length * y_per_glyph)
+		else if glyphs.length > 0
+			plot_glyph(glyphs[0], x, y)
+	else
+		# skip this dimension for the sake of overlap counting mainly
 		plot_hypercube(further_dimensions, x, y)
-		plot_hypercube(further_dimensions, x + length * x_per_glyph, y + length * y_per_glyph)
-	else if glyphs.length > 0
-		plot_glyph(glyphs[0], x, y)
 
 
 form = document.getElementById("inputs")
