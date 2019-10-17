@@ -22,20 +22,21 @@ plot_glyph = (glyph, x, y)->
 
 plot_hypercube_vertices = (dimensions, glyph, x, y)->
 
-	[_, dimensions...] = dimensions
+	[dimensions..., _] = dimensions
 
 	if dimensions.length
+		dimension = dimensions[dimensions.length - 1]
 		plot_hypercube_vertices(dimensions, glyph, x, y)
 		plot_hypercube_vertices(dimensions, glyph,
-			x + dimensions[0].length * dimensions[0].x_per_glyph,
-			y + dimensions[0].length * dimensions[0].y_per_glyph
+			x + dimension.length * dimension.x_per_glyph
+			y + dimension.length * dimension.y_per_glyph
 		)
 	else
 		plot_glyph(glyph, x, y)
 
 plot_hypercube = (dimensions, x, y)->
 
-	[dimension, further_dimensions...] = dimensions
+	[further_dimensions..., dimension] = dimensions
 	{length, x_per_glyph, y_per_glyph, glyphs} = dimension
 	
 	if length > 0 and glyphs.length > 0
@@ -135,11 +136,10 @@ do compute = ->
 	n_overlaps = 0
 	overlaps = {}
 
-	reversed_dimensions = [dimensions...].reverse() # reverse() operates *in-place*
-	for dimension in reversed_dimensions
+	for dimension in dimensions
 		dimension.glyphs = splitter.splitGraphemes(dimension.text)
 
-	plot_hypercube(reversed_dimensions, x, y)
+	plot_hypercube(dimensions, x, y)
 	
 	output_text_art =
 		(line.join("") for line in grid).join("\n")
