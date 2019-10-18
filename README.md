@@ -7,15 +7,26 @@ Create word cubes and other [hyperrectangular] ASCII art.
 
 ## Examples
 
+### 1D
+
+    N O T   V E R Y   I N T E R E S T I N G
+
+If you want actual wide text, use [Vaporwave Text Generator](https://lingojam.com/VaporwaveTextGenerator).
+
 ### 2D
 
-    S Q U A R E S
-    Q           Q
-    U   M E H   U
-    A   E   E   A
-    R   H E H   R
-    E           E
-    S Q U A R E S
+    S Q U A R E S    O N E → T W O    ONE→TWO
+    Q           Q    N           N    N     N
+    U   M E H   U    E           E    E     E
+    A   E   E   A    ↓           ↓    ↓     ↓
+    R   H E H   R    T           T    T     T
+    E           E    W           W    W     W
+    S Q U A R E S    O N E → T W O    ONE→TWO
+    
+    T Y P E S E T    T E X T    T Y P E S E T
+    E           E    E     E    E           E
+    S           S    S     S    X           X
+    T Y P E S E T    T E X T    T Y P E S E T
 
 ### 3D
 
@@ -80,6 +91,10 @@ Create word cubes and other [hyperrectangular] ASCII art.
                           ~   \ P /             ~   \ P /
                              ~ \E/                 ~ \E/
                                 R A T H E R   H Y P E R
+
+## npm module
+
+if u want an npm module, hmu
 
 ## License
 
