@@ -7,8 +7,6 @@
 <link rel="icon" href="favicon.png" />
 <script src="lib/coffeescript.js"></script>
 <script src="lib/grapheme-splitter.js"></script>
-</head>
-<body>
 <style>
 	html,
 	body {
@@ -92,7 +90,7 @@
 		color: inherit;
 	}
 	#copied-to-clipboard {
-		pointer-events: hidden;
+		pointer-events: none;
 		background-color: #00c030;
 		color: white;
 		border-radius: 100px;
@@ -137,6 +135,8 @@
 		flex-grow: 0.1;
 	}
 </style>
+</head>
+<body>
 <header>
 	<h1>ASCII Hypercube</h1>
 	<!-- <h2>Create hyperrectangular ASCII art</h2> -->
@@ -173,7 +173,7 @@
 				Format for Markdown (Reddit, etc.)
 		</label>
 	</span>
-	<div style="pointer-events: none"></div>
+	<div style="pointer-events: none">
 		<span id="copied-to-clipboard" aria-hidden="true" role="alert">Copied to Clipboard</span>
 	</div>
 </div>
