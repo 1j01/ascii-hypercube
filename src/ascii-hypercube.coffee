@@ -1,10 +1,10 @@
 
 grid = []
 
-n_overlaps = 0
+nOverlaps = 0
 overlaps = {}
 
-plot_glyph = (glyph, x, y)->
+plotGlyph = (glyph, x, y)->
 	if grid.length <= y
 		console?.warn? "Expanding vertically"
 		for i in [grid.length..y]
@@ -17,41 +17,41 @@ plot_glyph = (glyph, x, y)->
 		overlaps[existing] ?= {}
 		overlaps[existing][glyph] ?= 0
 		overlaps[existing][glyph] += 1
-		n_overlaps += 1
+		nOverlaps += 1
 	grid[y][x] = glyph
 
-plot_hypercube_vertices = (dimensions, glyph, x, y)->
+plotHypercubeVertices = (dimensions, glyph, x, y)->
 
-	[further_dimensions..., _] = dimensions
+	[furtherDimensions..., _] = dimensions
 
-	if further_dimensions.length
-		dimension = further_dimensions[further_dimensions.length - 1]
-		plot_hypercube_vertices(further_dimensions, glyph, x, y)
-		plot_hypercube_vertices(further_dimensions, glyph,
+	if furtherDimensions.length
+		dimension = furtherDimensions[furtherDimensions.length - 1]
+		plotHypercubeVertices(furtherDimensions, glyph, x, y)
+		plotHypercubeVertices(furtherDimensions, glyph,
 			x + dimension.length * dimension.xPerGlyph
 			y + dimension.length * dimension.yPerGlyph
 		)
 	else
-		plot_glyph(glyph, x, y)
+		plotGlyph(glyph, x, y)
 
-plot_hypercube = (dimensions, x, y)->
+plotHypercube = (dimensions, x, y)->
 
-	[further_dimensions..., dimension] = dimensions
+	[furtherDimensions..., dimension] = dimensions
 	{length, xPerGlyph, yPerGlyph, glyphs} = dimension
 	
 	if length > 0 and glyphs.length > 0
 		for i in [1..length]
 			glyph = glyphs[i % glyphs.length]
-			plot_hypercube_vertices(dimensions, glyph, x + i * xPerGlyph, y + i * yPerGlyph)
+			plotHypercubeVertices(dimensions, glyph, x + i * xPerGlyph, y + i * yPerGlyph)
 	if length > 0
-		if further_dimensions.length
-			plot_hypercube(further_dimensions, x, y)
-			plot_hypercube(further_dimensions, x + length * xPerGlyph, y + length * yPerGlyph)
+		if furtherDimensions.length
+			plotHypercube(furtherDimensions, x, y)
+			plotHypercube(furtherDimensions, x + length * xPerGlyph, y + length * yPerGlyph)
 		else if glyphs.length > 0
-			plot_glyph(glyphs[0], x, y)
+			plotGlyph(glyphs[0], x, y)
 	else
 		# skip this dimension for the sake of overlap counting mainly
-		plot_hypercube(further_dimensions, x, y)
+		plotHypercube(furtherDimensions, x, y)
 
 renderHypercube = (dimensions, splitter)->
 	x = 0
@@ -71,19 +71,19 @@ renderHypercube = (dimensions, splitter)->
 			# for [0..width]
 			# 	" "
 	
-	n_overlaps = 0
+	nOverlaps = 0
 	overlaps = {}
 
 	for dimension in dimensions
 		dimension.glyphs ?= (splitter ?= new (window?.GraphemeSplitter ? require('grapheme-splitter'))()).splitGraphemes(dimension.text)
 
 	if dimensions.length > 0
-		plot_hypercube(dimensions, x, y)
+		plotHypercube(dimensions, x, y)
 	
-	output_text_art =
+	outputTextArt =
 		(line.join("") for line in grid).join("\n")
 
-	return { text: output_text_art, overlaps, numOverlaps: n_overlaps }
+	return { text: outputTextArt, overlaps, numOverlaps: nOverlaps }
 
 # TODO: ESM export
 if module?
