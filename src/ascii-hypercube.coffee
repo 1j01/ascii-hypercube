@@ -75,14 +75,19 @@ render_hypercube = (dimensions, splitter)->
 	overlaps = {}
 
 	for dimension in dimensions
-		dimension.glyphs ?= (splitter ?= new GraphemeSplitter()).splitGraphemes(dimension.text)
+		dimension.glyphs ?= (splitter ?= new (window?.GraphemeSplitter ? require('grapheme-splitter'))()).splitGraphemes(dimension.text)
 
-	plot_hypercube(dimensions, x, y)
+	if dimensions.length > 0
+		plot_hypercube(dimensions, x, y)
 	
 	output_text_art =
 		(line.join("") for line in grid).join("\n")
 
 	return { text: output_text_art, overlaps, numOverlaps: n_overlaps }
 
-# TODO: ESM / CommonJS export
-window.render_hypercube = render_hypercube
+# TODO: ESM export
+if module?
+	module.exports =
+		render_hypercube: render_hypercube
+else
+	window.render_hypercube = render_hypercube
