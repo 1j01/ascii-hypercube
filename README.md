@@ -92,9 +92,69 @@ If you want actual wide text, use [Vaporwave Text Generator](https://lingojam.co
                              ~ \E/                 ~ \E/
                                 R A T H E R   H Y P E R
 
-## npm module
+## Library Usage
 
-if u want an npm module, hmu
+Install with npm:
+
+```sh
+npm install ascii-hypercube
+```
+
+Use in your code:
+```js
+const { render_hypercube } = require('ascii-hypercube')
+
+const dimensions = [
+  { length: 4, x_per_glyph: 2, y_per_glyph: 0, text: "CUBIC" },
+  { length: 4, x_per_glyph: 0, y_per_glyph: 1, text: "CUBIC" },
+  { length: 2, x_per_glyph: -2, y_per_glyph: 1, text: "/" },
+];
+const { text, numOverlaps, overlaps } = render_hypercube(dimensions);
+
+console.log(text);
+```
+
+If you want to use the browser version, you can include the [script](https://unpkg.com/ascii-hypercube) in your HTML:
+
+```html
+<script src="ascii-hypercube.js"></script>
+```
+
+and it will define a global `render_hypercube` function.
+
+## API
+
+### `render_hypercube(dimensions: Dimension[], splitter?: GraphemeSplitter): { text: string, numOverlaps: number, overlaps: number[][] }`
+
+- `dimensions` is an array of objects with the following properties:
+  - `length` is the number of characters in the dimension
+  - `x_per_glyph` is the number of characters to move right for each character
+  - `y_per_glyph` is the number of characters to move down for each character
+  - 
+  - `text` is the text to render along the dimension. It is repeated if `length` is greater than the length of the text.
+
+- `splitter` is an optional [GraphemeSplitter](https://github.com/orling/grapheme-splitter) object with a `splitGraphemes` method.
+  - When loaded in a browser, the library will try to use the global `GraphemeSplitter` if available.
+  - In Node.js, `grapheme-splitter` is included as a dependency and will be used automatically.
+  - If you want to use a different library or a custom implementation, you can pass it in here.
+
+## Development
+
+This project is written in CoffeeScript.
+
+### Library
+
+Add tests to [`src/test.js`](src/test.js) and run them with:
+```sh
+npm test
+```
+
+### Web App
+
+Any static file server will do. One that auto-reloads is nice:
+```sh
+npx live-server .
+```
 
 ## License
 
