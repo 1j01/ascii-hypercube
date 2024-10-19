@@ -1,5 +1,5 @@
-# import {render_hypercube} from "./ascii-hypercube.js"
-# render_hypercube = await import("./ascii-hypercube.js").then(m => m.render_hypercube)
+# import {renderHypercube} from "./ascii-hypercube.js"
+# renderHypercube = await import("./ascii-hypercube.js").then(m => m.renderHypercube)
 
 form = document.getElementById("inputs")
 add_dimension_button = document.getElementById("add-dimension")
@@ -52,11 +52,11 @@ update_output_area = (output)->
 splitter = new GraphemeSplitter
 
 dimensions = [
-	{length: 4, x_per_glyph: 2, y_per_glyph: 0, text: "CUBIC"}
-	{length: 4, x_per_glyph: 0, y_per_glyph: 1, text: "CUBIC"}
-	{length: 2, x_per_glyph: 2, y_per_glyph: 1, text: "\\"}
-	{length: 0, x_per_glyph: 3, y_per_glyph: 1, text: "~"}
-	{length: 0, x_per_glyph: -1, y_per_glyph: 1, text: "/"}
+	{length: 4, xPerGlyph: 2, yPerGlyph: 0, text: "CUBIC"}
+	{length: 4, xPerGlyph: 0, yPerGlyph: 1, text: "CUBIC"}
+	{length: 2, xPerGlyph: 2, yPerGlyph: 1, text: "\\"}
+	{length: 0, xPerGlyph: 3, yPerGlyph: 1, text: "~"}
+	{length: 0, xPerGlyph: -1, yPerGlyph: 1, text: "/"}
 ]
 
 do compute = ->
@@ -64,7 +64,7 @@ do compute = ->
 	# for dimension in dimensions
 	# 	dimension.glyphs = splitter.splitGraphemes(dimension.text)
 
-	output = render_hypercube(dimensions, splitter)
+	output = renderHypercube(dimensions, splitter)
 
 	update_output_area(output)
 
@@ -107,15 +107,15 @@ make_dimension_row = (nd_name, dimension)->
 	offset_input = document.createElement("input")
 	offset_input.type = "text"
 	offset_input.className = "vector-input"
-	offset_input.value = "#{dimension.x_per_glyph}, #{dimension.y_per_glyph}"
+	offset_input.value = "#{dimension.xPerGlyph}, #{dimension.yPerGlyph}"
 	offset_input.required = true
 	offset_input.pattern = "-?\\d+\\s*,\\s*-?\\d+"
 	offset_input.addEventListener "input", ->
 		[x_str, y_str] = offset_input.value.split(",")
 		unless isNaN(parseInt(x_str))
-			dimension.x_per_glyph = parseInt(x_str)
+			dimension.xPerGlyph = parseInt(x_str)
 		unless isNaN(parseInt(y_str))
-			dimension.y_per_glyph = parseInt(y_str)
+			dimension.yPerGlyph = parseInt(y_str)
 		compute()
 	label_el.appendChild(document.createTextNode("Offset per glyph: "))
 	label_el.appendChild(offset_input)
@@ -128,12 +128,12 @@ for dimension, i in dimensions
 	form.appendChild(el)
 
 add_dimension_button.addEventListener "click", ->
-	x_per_glyph = ~~(Math.random() * 5) - 2
-	y_per_glyph = ~~(Math.random() * 5) - 2
+	xPerGlyph = ~~(Math.random() * 5) - 2
+	yPerGlyph = ~~(Math.random() * 5) - 2
 	length = ~~(Math.random() * 5) + 2
-	if x_per_glyph is 0 and y_per_glyph is 0
-		y_per_glyph = 5
-	dimension = {length, x_per_glyph, y_per_glyph, text: "*"}
+	if xPerGlyph is 0 and yPerGlyph is 0
+		yPerGlyph = 5
+	dimension = {length, xPerGlyph, yPerGlyph, text: "*"}
 	dimensions.push(dimension)
 	el = make_dimension_row("#{dimensions.length}D", dimension)
 	form.appendChild(el)

@@ -102,14 +102,14 @@ npm install ascii-hypercube
 
 Use in your code:
 ```js
-const { render_hypercube } = require('ascii-hypercube')
+const { renderHypercube } = require('ascii-hypercube')
 
 const dimensions = [
-  { length: 4, x_per_glyph: 2, y_per_glyph: 0, text: "CUBIC" },
-  { length: 4, x_per_glyph: 0, y_per_glyph: 1, text: "CUBIC" },
-  { length: 2, x_per_glyph: -2, y_per_glyph: 1, text: "/" },
+  { length: 4, xPerGlyph: 2, yPerGlyph: 0, text: "CUBIC" },
+  { length: 4, xPerGlyph: 0, yPerGlyph: 1, text: "CUBIC" },
+  { length: 2, xPerGlyph: -2, yPerGlyph: 1, text: "/" },
 ];
-const { text, numOverlaps, overlaps } = render_hypercube(dimensions);
+const { text, numOverlaps, overlaps } = renderHypercube(dimensions);
 
 console.log(text);
 ```
@@ -120,16 +120,16 @@ If you want to use the browser version, you can include the [script](https://unp
 <script src="ascii-hypercube.js"></script>
 ```
 
-and it will define a global `render_hypercube` function.
+and it will define a global `renderHypercube` function.
 
 ## API
 
-### `render_hypercube(dimensions: Dimension[], splitter?: GraphemeSplitter): { text: string, numOverlaps: number, overlaps: number[][] }`
+### `renderHypercube(dimensions: Dimension[], splitter?: GraphemeSplitter): { text: string, numOverlaps: number, overlaps: number[][] }`
 
 - `dimensions` is an array of objects with the following properties:
   - `length` is the number of characters in the dimension
-  - `x_per_glyph` is the number of characters to move right for each character
-  - `y_per_glyph` is the number of characters to move down for each character
+  - `xPerGlyph` is the number of characters to move right for each character
+  - `yPerGlyph` is the number of characters to move down for each character
   - 
   - `text` is the text to render along the dimension. It is repeated if `length` is greater than the length of the text.
 
