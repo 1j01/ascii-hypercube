@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Render tesseracts as text",
   "main": "build/ascii-hypercube.js",
+  "bin": {
+    "ascii-hypercube": "src/cli.js"
+  },
   "directories": {
     "lib": "src"
   },
@@ -42,6 +45,7 @@
     "coffeescript": "2.4.1"
   },
   "dependencies": {
+    "argparse": "^2.0.1",
     "grapheme-splitter": "^1.0.4"
   }
 }
