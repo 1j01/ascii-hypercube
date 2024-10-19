@@ -124,7 +124,7 @@ and it will define a global `renderHypercube` function.
 
 ## API
 
-### `renderHypercube(dimensions: Dimension[], splitter?: GraphemeSplitter): { text: string, numOverlaps: number, overlaps: number[][] }`
+### `renderHypercube(dimensions: Dimension[], splitter?: GraphemeSplitter): { text: string, numOverlaps: number, overlaps: OverlapStats }`
 
 - `dimensions` is an array of objects with the following properties:
   - `length` is the number of steps **between** the first and last glyph along the dimension. It should be one less than the number of glyphs to be plotted.
@@ -137,6 +137,12 @@ and it will define a global `renderHypercube` function.
   - When loaded in a browser, the library will try to use the global `GraphemeSplitter` if available.
   - In Node.js, `grapheme-splitter` is included as a dependency and will be used automatically.
   - If you want to use a different library or a custom implementation, you can pass it in here.
+
+- Returns an object with the following properties:
+  - `text` is the rendered hypercube as a string
+  - `numOverlaps` is the number of times a glyph was plotted that didn't match the glyph that was already there
+  - `overlaps` is an object that gives statistics about the overlaps.
+    - Each key is a glyph that was overwritten, and each value is an object with keys being overriding glyphs and values being the number of times that overlap occurred.
 
 ## Development
 
