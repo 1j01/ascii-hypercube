@@ -1,7 +1,7 @@
 
 grid = []
 
-nOverlaps = 0
+numOverlaps = 0
 overlaps = {}
 
 plotGlyph = (glyph, x, y)->
@@ -17,7 +17,7 @@ plotGlyph = (glyph, x, y)->
 		overlaps[existing] ?= {}
 		overlaps[existing][glyph] ?= 0
 		overlaps[existing][glyph] += 1
-		nOverlaps += 1
+		numOverlaps += 1
 	grid[y][x] = glyph
 
 plotHypercubeVertices = (dimensions, glyph, x, y)->
@@ -71,7 +71,7 @@ renderHypercube = (dimensions, splitter)->
 			# for [0..width]
 			# 	" "
 	
-	nOverlaps = 0
+	numOverlaps = 0
 	overlaps = {}
 
 	for dimension in dimensions
@@ -80,10 +80,10 @@ renderHypercube = (dimensions, splitter)->
 	if dimensions.length > 0
 		plotHypercube(dimensions, x, y)
 	
-	outputTextArt =
+	text =
 		(line.join("") for line in grid).join("\n")
 
-	return { text: outputTextArt, overlaps, numOverlaps: nOverlaps }
+	return { text, overlaps, numOverlaps }
 
 # TODO: ESM export
 if module?
