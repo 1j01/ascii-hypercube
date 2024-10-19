@@ -1,0 +1,43 @@
+{
+  "name": "ascii-hypercube",
+  "version": "1.0.0",
+  "description": "Render tesseracts as text",
+  "main": "build/ascii-hypercube.js",
+  "directories": {
+    "lib": "src"
+  },
+  "scripts": {
+    "build": "coffee -c -o build/ src/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1j01/ascii-hypercube.git"
+  },
+  "keywords": [
+    "cube",
+    "tesseract",
+    "hypercube",
+    "hyperrectangle",
+    "text",
+    "ascii",
+    "geometry",
+    "ascii-art",
+    "text-art",
+    "shapes",
+    "dimensions",
+    "2d",
+    "3d",
+    "4d",
+    "5d"
+  ],
+  "author": "Isaiah Odhner <isaiahodhner@gmail.com> (https://isaiahodhner.io)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/1j01/ascii-hypercube/issues"
+  },
+  "homepage": "https://github.com/1j01/ascii-hypercube#readme",
+  "devDependencies": {
+    "coffeescript": "2.4.1"
+  }
+}
