@@ -23,9 +23,16 @@ C U B I C   B
 	},
 ];
 
+let failed = false;
 tests.forEach(({ dimensions, expectedText }, i) => {
 	const actual = render_hypercube(dimensions);
 	if (actual.text !== expectedText) {
 		console.error(`Test ${i} failed: expected\n${expectedText}\nbut got\n${actual.text}\n`);
+		failed = true;
 	}
 });
+if (failed) {
+	process.exit(1);
+} else {
+	console.log('All tests passed');
+}
