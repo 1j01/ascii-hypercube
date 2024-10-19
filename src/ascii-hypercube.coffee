@@ -75,7 +75,10 @@ renderHypercube = (dimensions, splitter)->
 	overlaps = {}
 
 	for dimension in dimensions
-		dimension.glyphs ?= (splitter ?= new (window?.GraphemeSplitter ? require('grapheme-splitter'))()).splitGraphemes(dimension.text)
+		# Not using `dimension.glyphs ?= ...` because if the objects are reused, the glyphs would be reused too (cached forever)
+		# TODO: don't modify the input objects at all
+		if dimension.text?
+			dimension.glyphs = (splitter ?= new (window?.GraphemeSplitter ? require('grapheme-splitter'))()).splitGraphemes(dimension.text)
 
 	if dimensions.length > 0
 		plotHypercube(dimensions, x, y)
