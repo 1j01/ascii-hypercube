@@ -127,11 +127,11 @@ and it will define a global `renderHypercube` function.
 ### `renderHypercube(dimensions: Dimension[], splitter?: GraphemeSplitter): { text: string, numOverlaps: number, overlaps: number[][] }`
 
 - `dimensions` is an array of objects with the following properties:
-  - `length` is the number of characters in the dimension
-  - `xPerGlyph` is the number of characters to move right for each character
-  - `yPerGlyph` is the number of characters to move down for each character
-  - 
-  - `text` is the text to render along the dimension. It is repeated if `length` is greater than the length of the text.
+  - `length` is the number of glyphs to plot along the dimension
+  - `xPerGlyph` is the number of characters to move right for each plotted glyph
+  - `yPerGlyph` is the number of characters to move down for each plotted glyph
+  - `text` is the text to render along edges of the dimension. It is repeated if `length` is greater than the length of the text.
+  - `glyphs` is an alternative to `text` if you have already split the text into graphemes. Exactly one of `text` or `glyphs` should be provided.
 
 - `splitter` is an optional [GraphemeSplitter](https://github.com/orling/grapheme-splitter) object with a `splitGraphemes` method.
   - When loaded in a browser, the library will try to use the global `GraphemeSplitter` if available.
