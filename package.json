@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "coffee -c -o build/ src/",
+    "prepare": "npm run build",
     "test": "npm run build && node src/test.js"
   },
   "repository": {
