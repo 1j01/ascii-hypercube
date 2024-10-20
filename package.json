@@ -6,6 +6,12 @@
   "bin": {
     "ascii-hypercube": "src/cli.js"
   },
+  "files": [
+    "build/",
+    "src/",
+    "LICENSE",
+    "README.md"
+  ],
   "directories": {
     "lib": "src"
   },
