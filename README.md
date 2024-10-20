@@ -144,6 +144,40 @@ and it will define a global `renderHypercube` function.
   - `overlaps` is an object that gives statistics about the overlaps.
     - Each key is a glyph that was overwritten, and each value is an object with keys being overriding glyphs and values being the number of times that overlap occurred.
 
+## CLI
+
+You can also use the command-line interface. If you have Node.js installed, you can simply use `npx` to run it:
+
+```sh
+npx ascii-hypercube -d 2,0 3 'TEST' -d 0,1 3 'TEXT' -d -1,1 4 '///'
+```
+
+To install as a global command:
+
+```sh
+npm install -g ascii-hypercube
+```
+
+Then you can run it without `npx`.
+
+```HELP_OUTPUT
+usage: ascii-hypercube [-h] [-d TRAVEL LENGTH TEXT] [-s]
+
+CLI to render hypercubes with text along an arbitrary number of dimensions
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d TRAVEL LENGTH TEXT, --dimension TRAVEL LENGTH TEXT
+                        Define a dimension, with travel per glyph, length of
+                        edges along the dimension, and text. Can be specified
+                        multiple times. Travel must be given as a pair of
+                        numbers with no spaces, e.g. "-1,0" or "(-1,0)"
+  -s, --stats           Print statistics about the overlaps
+
+Example: ascii-hypercube -d 2,0 11 'RATHER HYPER' -d 0,1 11 'RATHER HYPER' -d
+1,1 4 '\\' -d 3,1 8 '\~' -d -1,1 3 '\/'
+```
+
 ## Development
 
 This project is written in CoffeeScript.
@@ -160,6 +194,13 @@ npm test
 Any static file server will do. One that auto-reloads is nice:
 ```sh
 npx live-server .
+```
+
+### CLI
+
+Update help in this readme with:
+```sh
+npm run update-cli-docs
 ```
 
 ## License

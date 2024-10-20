@@ -12,7 +12,8 @@
   "scripts": {
     "build": "coffee -c -o build/ src/",
     "prepare": "npm run build",
-    "test": "npm run build && node src/test.js"
+    "test": "npm run build && node src/test.js",
+    "update-cli-docs": "node -e \"const fs = require('fs'); fs.writeFileSync('README.md', fs.readFileSync('README.md', 'utf8').replace(/```HELP_OUTPUT([^`]|`(?!``))+```/s, '```HELP_OUTPUT\\n' + require('child_process').execSync('ascii-hypercube --help').toString().trim() + '\\n```'))\""
   },
   "repository": {
     "type": "git",
